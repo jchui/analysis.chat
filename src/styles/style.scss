@@ -1,7 +1,9 @@
 @import "~bulma/bulma.sass";
 
 $primary: white;
+$fonts: 'Poppins', sans-serif;
 
 body {
     background-color: $primary;
+    font-family: $fonts;
 }

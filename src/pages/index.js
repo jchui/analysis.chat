@@ -20,7 +20,6 @@ const IndexPage = () => {
           </div>
         </div>
       </div>
-
     </main>
   );
 };
