@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: `https://www.yourdomain.tld`
+    siteUrl: `https://www.jchui.me`,
   },
-  plugins: ["gatsby-plugin-sass"]
+  plugins: ['gatsby-plugin-sass'],
 };
