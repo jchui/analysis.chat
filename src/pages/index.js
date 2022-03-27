@@ -1,25 +1,75 @@
 import * as React from 'react';
-import { useMemo, useCallback } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import JSZip from 'jszip';
 
 import '../styles/style.scss';
 
 const IndexPage = () => {
+  let chatLog = [];
+  let chatFiles = [];
+
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
-      // Get Chat Log
-      JSZip.loadAsync(file)
+      const chatLogFile = JSZip.loadAsync(file)
         .then(function (zip) {
-          return zip.file('_chat.txt').async('text');
+          const chatLogFile = zip.file('_chat.txt');
+          chatFiles = zip.file().files;
+          return chatLogFile == null ? null : chatLogFile.async('text');
         })
-        .then(function (chatlog) {
-          //console.log(chatlog);
-        });
+        .then(function (promiseResult) {
+          promiseResult == null
+            ? (chatLog = ['[, ] : ', undefined])
+            : (chatLog = promiseResult.split('\r\n'));
 
-      JSZip.loadAsync(file).then(function (zip) {
-        console.log(zip.file());
-      });
+            chatLog.pop();
+            console.log(chatLog);
+            for(var i = 0; i<chatLog.length; i++) {
+              let tempArray = [];
+              let tempDate = chatLog[i].split(", ")[0].split("[")[1];
+              let tempUser = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0];
+              let tempMessage = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1];
+    
+              tempUser = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1] == undefined ? "Admin" : chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0];
+    
+              tempMessage = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1] == undefined ? chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0] : chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1];
+    
+              tempArray.push({
+                "date": tempDate,
+                "time": chatLog[i].split(", ")[1].split("] ")[0],
+                "user": tempUser,
+                "message": tempMessage
+              });
+              chatLog[i] = tempArray[0];
+            }
+
+          console.log(chatLog);
+          return chatLog;
+        });
+      // .then(function (log) {
+      //   chatLog = log.split('\r\n[');
+      //   for(var i = 0; i<chatLog.length; i++) {
+      //     let tempArray = [];
+      //     let tempUser = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0];
+      //     let tempMessage = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1];
+
+      //     tempUser = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1] == undefined ? "Admin" : chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0];
+
+      //     tempMessage = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1] == undefined ? chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0] : chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1];
+
+      //     tempArray.push({
+      //       "date": chatLog[i].split(", ")[0],
+      //       "time": chatLog[i].split(", ")[1].split("] ")[0],
+      //       "user": tempUser,
+      //       "message": tempMessage
+      //     });
+      //     chatLog[i] = tempArray[0];
+      //   }
+      // })
+      // .then(function () {
+      //   console.log(chatFiles);
+      //   console.log(chatLog);
+      // });
     });
   }, []);
 
