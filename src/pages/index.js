@@ -1,26 +1,34 @@
 import * as React from 'react';
 import { useMemo, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+import JSZip from 'jszip';
 
 import '../styles/style.scss';
 
 const IndexPage = () => {
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
-      const reader = new FileReader();
+      // Get Chat Log
+      JSZip.loadAsync(file)
+        .then(function (zip) {
+          return zip.file('_chat.txt').async('text');
+        })
+        .then(function (chatlog) {
+          //console.log(chatlog);
+        });
 
-      reader.onabort = () => console.log('file reading was aborted');
-      reader.onerror = () => console.log('file reading has failed');
-      reader.onload = () => {
-        const binaryStr = reader.result;
-        console.log(binaryStr);
-      };
-      reader.readAsArrayBuffer(file);
+      JSZip.loadAsync(file).then(function (zip) {
+        console.log(zip.file());
+      });
     });
   }, []);
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
-    useDropzone({ onDrop });
+    useDropzone({
+      onDrop,
+      accept:
+        'application/zip, application/octet-stream, application/x-zip-compressed, multipart/x-zip',
+    });
 
   const style = useMemo(
     () => ({
