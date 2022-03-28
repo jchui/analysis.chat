@@ -2,10 +2,48 @@
 
 $primary: white;
 $fonts: 'Poppins', sans-serif;
+$primaryFontColor: #2e2e2e;
+
+h1 {
+    font-weight: 800;
+    font-size: 90px;
+    line-height: 110px;
+}
+
+h2 {
+    font-weight: 800;
+    font-size: 40px;
+}
+
+p {
+    font-weight: 600;
+    font-size: 20px;
+}
 
 body {
-    background-color: $primary;
     font-family: $fonts;
+    margin: 0;
+    padding: 0;
+
+    .showcase {
+        padding: 0px 120px;
+
+        .welcome {
+            background-color: #FFD23F;
+            padding: 30px 50px;
+            margin: 80px 0;
+            color: $primaryFontColor;
+
+            object {
+                position: absolute;
+                width: 320px;
+                height: 320px;
+                bottom: -40px;
+                right: -70px;
+            }
+        }
+
+    }
 
     .dndinput {
 
@@ -37,4 +75,39 @@ body {
             border-color: #ff1744;
         }
     }
+}
+
+@media screen and (max-width: 1350px) {
+
+    h1 {
+        font-size: 55px;
+        line-height: 65px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    body {
+        .showcase {
+            padding: 0 20px;
+
+            .welcome {
+
+                p {
+                    padding-left: 150px;
+                }
+                
+                object {
+                    width: 200px;
+                    height: 200px;
+                    top: auto;
+                    bottom: 0px;
+                    right: 0;
+                }
+
+            }
+        }
+    }
+
 }
