@@ -4,6 +4,7 @@ import AnimatedGIF from '../../../src/images/981-consultation-outline.gif';
 
 const Welcome = ({ chatName: chatName, chatMessageCount: chatMessageCount }) => {
 
+    const chatMessageCountOutput = chatMessageCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     let chatMessageCountReaction = "That's a lot!";
 
   return (
@@ -60,7 +61,7 @@ const Welcome = ({ chatName: chatName, chatMessageCount: chatMessageCount }) => 
                         easing="linear"
                         translateX={-150}
                     >
-                <p>{chatMessageCount} messages were sent between you. </p>
+                <p>{chatMessageCountOutput} messages were sent between you. </p>
                 </Anime>
                 <Anime 
                         duration={500} 
