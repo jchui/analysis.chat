@@ -62,6 +62,7 @@ const IndexPage = () => {
             }
 
             setChatLogParsed(chatLog);
+            console.log(chatLog);
           },
           [chatLogParsed]
         );
@@ -86,6 +87,7 @@ const IndexPage = () => {
         .then(
           function (result) {
             setChatImages(result);
+            console.log(result);
           },
           [chatImages]
         )
@@ -117,9 +119,6 @@ const IndexPage = () => {
 
   return (
     <main>
-      <title>Home Page</title>
-      <h1>Hello world</h1>
-
       <div className="container">
         <div className="column">
           <div className="dndinput">
@@ -128,8 +127,8 @@ const IndexPage = () => {
               <p>Drag 'n' drop some files here, or click to select files</p>
             </div>
           </div>
-          <img src={chatImages ? chatImages[0][1] : null} />
-          <div>{chatLogParsed ? chatLogParsed[0]['message'] : null}</div>
+          {/* <img src={chatImages ? chatImages[0][1] : null} />
+          <div>{chatLogParsed ? chatLogParsed[0]['message'] : null}</div> */}
         </div>
       </div>
     </main>
