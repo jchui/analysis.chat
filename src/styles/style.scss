@@ -4,10 +4,13 @@ $primary: white;
 $fonts: 'Poppins', sans-serif;
 $primaryFontColor: #2e2e2e;
 
+$welcomeBackgroundColor: #FFD23F;
+
 h1 {
     font-weight: 800;
     font-size: 90px;
     line-height: 110px;
+    max-width: 80%;
 }
 
 h2 {
@@ -20,26 +23,56 @@ p {
     font-size: 20px;
 }
 
+small {
+    font-size: 16px;
+}
+
 body {
     font-family: $fonts;
     margin: 0;
     padding: 0;
 
     .showcase {
-        padding: 0px 120px;
+
+        .parallaxWelcomeLayer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .highlightTab {
+            background-color: $primaryFontColor;
+            margin-top: 12px;
+            height: 7px;
+            width: 100%;
+        }
 
         .welcome {
-            background-color: #FFD23F;
+            background-color: $welcomeBackgroundColor;
             padding: 30px 50px;
-            margin: 80px 0;
             color: $primaryFontColor;
 
             object {
                 position: absolute;
                 width: 320px;
                 height: 320px;
-                bottom: -40px;
-                right: -70px;
+                top: 20px;
+                right: -20px;
+            }
+        }
+
+        .welcomeDetails {
+            background-color: $welcomeBackgroundColor;
+            padding: 30px 50px;
+            margin-top: 5px;
+            color: $primaryFontColor;
+
+            .column:nth-child(2) {
+                text-align: center;
+            }
+
+            .column:nth-child(3) {
+                text-align: right;
             }
         }
 
@@ -90,9 +123,13 @@ body {
 
     body {
         .showcase {
-            padding: 0 20px;
+
+            .parallaxWelcomeLayer {
+                display: block;
+            }
 
             .welcome {
+                margin: 30px 30px 0 30px;
 
                 p {
                     padding-left: 150px;
@@ -101,9 +138,17 @@ body {
                 object {
                     width: 200px;
                     height: 200px;
-                    top: auto;
-                    bottom: 0px;
+                    top: 200px;
                     right: 0;
+                }
+
+            }
+
+            .welcomeDetails {
+                margin: 5px 30px 50px 30px;
+
+                .column {
+                    text-align: center !important;
                 }
 
             }
