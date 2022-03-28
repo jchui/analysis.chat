@@ -9,6 +9,7 @@ const IndexPage = () => {
   let chatLog = [];
   let chatFiles = [];
 
+  // Open _chat.txt and parse conversation into chatLog and chatFiles
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
       const chatLogFile = JSZip.loadAsync(file)
@@ -64,6 +65,7 @@ const IndexPage = () => {
     });
   }, []);
 
+  // react-dropzone props + accept only .zip files
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({
       onDrop,
@@ -71,6 +73,7 @@ const IndexPage = () => {
         'application/zip, application/octet-stream, application/x-zip-compressed, multipart/x-zip',
     });
 
+  // Styling for react-dropzone
   const style = useMemo(
     () => ({
       ...['base'],
