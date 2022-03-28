@@ -6,64 +6,94 @@ import JSZip from 'jszip';
 import '../styles/style.scss';
 
 const IndexPage = () => {
-  let chatLog = [];
-  let chatFiles = [];
+  const [chatLogParsed, setChatLogParsed] = useState();
+  const [chatImages, setChatImages] = useState();
 
   // Open _chat.txt and parse conversation into chatLog and chatFiles
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
-      const chatLogFile = JSZip.loadAsync(file)
+      // chatLogParsed [{date: , time: , name: , message: }]
+      JSZip.loadAsync(file)
         .then(function (zip) {
           const chatLogFile = zip.file('_chat.txt');
-          chatFiles = zip.file().files;
           return chatLogFile == null ? null : chatLogFile.async('text');
         })
-        .then(function (promiseResult) {
-          promiseResult == null
-            ? (chatLog = ['[, ] : ', undefined])
-            : (chatLog = promiseResult.split('\r\n'));
+        .then(
+          function (promiseResult) {
+            let chatLog = [];
+            promiseResult == null
+              ? (chatLog = ['[, ] : ', undefined])
+              : (chatLog = promiseResult.split('\r\n'));
 
-          chatLog.pop();
+            chatLog.pop();
 
-          for (var i = 0; i < chatLog.length; i++) {
-            let tempArray = [];
+            for (var i = 0; i < chatLog.length; i++) {
+              let tempArray = [];
 
-            let tempDate,
-              tempTime,
-              tempUser,
-              tempMessage,
-              tempUserMessage = '';
+              let tempDate,
+                tempTime,
+                tempUser,
+                tempMessage,
+                tempUserMessage = '';
 
-            tempDate = chatLog[i].split(', ')[0].split('[')[1];
+              tempDate = chatLog[i].split(', ')[0].split('[')[1];
 
-            tempTime = chatLog[i].split(', ')[1].split('] ')[0];
+              tempTime = chatLog[i].split(', ')[1].split('] ')[0];
 
-            tempUserMessage = chatLog[i].split('] ').slice(1).join('] ');
+              tempUserMessage = chatLog[i].split('] ').slice(1).join('] ');
 
-            tempUserMessage.split(': ').slice(1).join(': ')[1] == undefined
-              ? ((tempUser = 'Admin'), (tempMessage = tempUserMessage))
-              : ((tempUser = tempUserMessage.substring(
-                  0,
-                  tempUserMessage.indexOf(': ')
-                )),
-                (tempMessage = tempUserMessage.substring(
-                  tempUserMessage.indexOf(': ') + 2
-                )));
+              tempUserMessage.split(': ').slice(1).join(': ')[1] == undefined
+                ? ((tempUser = 'Admin'), (tempMessage = tempUserMessage))
+                : ((tempUser = tempUserMessage.substring(
+                    0,
+                    tempUserMessage.indexOf(': ')
+                  )),
+                  (tempMessage = tempUserMessage.substring(
+                    tempUserMessage.indexOf(': ') + 2
+                  )));
 
-            tempArray.push({
-              date: tempDate,
-              time: tempTime,
-              user: tempUser,
-              message: tempMessage,
+              tempArray.push({
+                date: tempDate,
+                time: tempTime,
+                user: tempUser,
+                message: tempMessage,
+              });
+              chatLog[i] = tempArray[0];
+            }
+
+            setChatLogParsed(chatLog);
+          },
+          [chatLogParsed]
+        );
+
+      // chatImages [{blob_url, image_name}]
+      JSZip.loadAsync(file)
+        .then(function (zip) {
+          var re = /(.jpg|.png|.gif|.ps|.jpeg)$/;
+          var promises = Object.keys(zip.files)
+            .filter(function (fileName) {
+              // don't consider non image files
+              return re.test(fileName.toLowerCase());
+            })
+            .map(function (fileName) {
+              var file = zip.files[fileName];
+              return file.async('blob').then(function (blob) {
+                return [fileName, URL.createObjectURL(blob)];
+              });
             });
-            chatLog[i] = tempArray[0];
-          }
-
-          console.log(chatLog);
-          return chatLog;
+          return Promise.all(promises);
+        })
+        .then(
+          function (result) {
+            setChatImages(result);
+          },
+          [chatImages]
+        )
+        .catch(function (e) {
+          console.error(e);
         });
     });
-  }, []);
+  });
 
   // react-dropzone props + accept only .zip files
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
@@ -71,6 +101,7 @@ const IndexPage = () => {
       onDrop,
       accept:
         'application/zip, application/octet-stream, application/x-zip-compressed, multipart/x-zip',
+      multiple: false,
     });
 
   // Styling for react-dropzone
@@ -97,6 +128,8 @@ const IndexPage = () => {
               <p>Drag 'n' drop some files here, or click to select files</p>
             </div>
           </div>
+          <img src={chatImages ? chatImages[0][1] : null} />
+          <div>{chatLogParsed ? chatLogParsed[0]['message'] : null}</div>
         </div>
       </div>
     </main>
