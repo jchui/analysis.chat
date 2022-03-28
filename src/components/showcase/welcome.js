@@ -2,7 +2,7 @@ import React from 'react';
 import Anime, { anime } from 'react-anime';
 import AnimatedGIF from '../../../src/images/981-consultation-outline.gif';
 
-const Welcome = ({ chatName: chatName, chatLogParsed: chatLogParsed, chatImages: chatImages }) => {
+const Welcome = ({ chatName: chatName, chatMessageCount: chatMessageCount }) => {
 
     let chatMessageCountReaction = "That's a lot!";
 
@@ -60,7 +60,7 @@ const Welcome = ({ chatName: chatName, chatLogParsed: chatLogParsed, chatImages:
                         easing="linear"
                         translateX={-150}
                     >
-                <p>20,391 messages were sent between you. </p>
+                <p>{chatMessageCount} messages were sent between you. </p>
                 </Anime>
                 <Anime 
                         duration={500} 
