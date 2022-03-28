@@ -22,54 +22,45 @@ const IndexPage = () => {
             ? (chatLog = ['[, ] : ', undefined])
             : (chatLog = promiseResult.split('\r\n'));
 
-            chatLog.pop();
-            console.log(chatLog);
-            for(var i = 0; i<chatLog.length; i++) {
-              let tempArray = [];
-              let tempDate = chatLog[i].split(", ")[0].split("[")[1];
-              let tempUser = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0];
-              let tempMessage = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1];
-    
-              tempUser = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1] == undefined ? "Admin" : chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0];
-    
-              tempMessage = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1] == undefined ? chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0] : chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1];
-    
-              tempArray.push({
-                "date": tempDate,
-                "time": chatLog[i].split(", ")[1].split("] ")[0],
-                "user": tempUser,
-                "message": tempMessage
-              });
-              chatLog[i] = tempArray[0];
-            }
+          chatLog.pop();
+
+          for (var i = 0; i < chatLog.length; i++) {
+            let tempArray = [];
+
+            let tempDate,
+              tempTime,
+              tempUser,
+              tempMessage,
+              tempUserMessage = '';
+
+            tempDate = chatLog[i].split(', ')[0].split('[')[1];
+
+            tempTime = chatLog[i].split(', ')[1].split('] ')[0];
+
+            tempUserMessage = chatLog[i].split('] ').slice(1).join('] ');
+
+            tempUserMessage.split(': ').slice(1).join(': ')[1] == undefined
+              ? ((tempUser = 'Admin'), (tempMessage = tempUserMessage))
+              : ((tempUser = tempUserMessage.substring(
+                  0,
+                  tempUserMessage.indexOf(': ')
+                )),
+                (tempMessage = tempUserMessage.substring(
+                  tempUserMessage.indexOf(': ') + 2
+                )));
+
+            tempArray.push({
+              date: tempDate,
+              time: tempTime,
+              user: tempUser,
+              message: tempMessage,
+            });
+            chatLog[i] = tempArray[0];
+          }
 
           console.log(chatLog);
           return chatLog;
         });
-      // .then(function (log) {
-      //   chatLog = log.split('\r\n[');
-      //   for(var i = 0; i<chatLog.length; i++) {
-      //     let tempArray = [];
-      //     let tempUser = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0];
-      //     let tempMessage = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1];
-
-      //     tempUser = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1] == undefined ? "Admin" : chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0];
-
-      //     tempMessage = chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1] == undefined ? chatLog[i].split(", ")[1].split("] ")[1].split(": ")[0] : chatLog[i].split(", ")[1].split("] ")[1].split(": ")[1];
-
-      //     tempArray.push({
-      //       "date": chatLog[i].split(", ")[0],
-      //       "time": chatLog[i].split(", ")[1].split("] ")[0],
-      //       "user": tempUser,
-      //       "message": tempMessage
-      //     });
-      //     chatLog[i] = tempArray[0];
-      //   }
-      // })
-      // .then(function () {
-      //   console.log(chatFiles);
-      //   console.log(chatLog);
-      // });
     });
   }, []);
 
