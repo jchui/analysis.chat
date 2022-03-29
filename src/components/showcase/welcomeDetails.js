@@ -2,7 +2,9 @@ import React from 'react';
 import Anime, { anime } from 'react-anime';
 
 const WelcomeDetails = ({ chatMessageDuration: chatMessageDuration }) => {
-  var chatPlaceholder = 'Scroll down to find out more!';
+  chatMessageDuration = chatMessageDuration
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   return (
     <>
@@ -11,13 +13,15 @@ const WelcomeDetails = ({ chatMessageDuration: chatMessageDuration }) => {
           <div className="columns">
             <div className="column is-one-third">
               <p>
-                <small>You've been talking for {chatMessageDuration}.</small>
+                <small>
+                  You've been talking for {chatMessageDuration} days.
+                </small>
               </p>
             </div>
             <div className="column is-one-third"></div>
             <div className="column is-one-third">
               <p>
-                <small>{chatPlaceholder}</small>
+                <small>Scroll down to find out more!</small>
               </p>
             </div>
           </div>
