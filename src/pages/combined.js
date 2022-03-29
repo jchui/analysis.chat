@@ -10,11 +10,20 @@ import DragDrop from '../components/showcase/dragdrop';
 
 const IndexPage = () => {
 
-    const getChatImagesFromChild = (val) => {
-        console.log(val);
-    }
+    const [chatLogParsed, setChatLogParsed] = useState();
+    const [chatImages, setChatImages] = useState();
+    const [chatDataCheck, setChatDataCheck] = useState(false);
 
     const getChatLogParsedFromChild = (val) => {
+        setChatLogParsed(val);
+        console.log(val);
+        val.length > 1 
+        ? setChatDataCheck(true)
+        : setChatDataCheck(false)
+    }
+
+    const getChatImagesFromChild = (val) => {
+        setChatImages(val)
         console.log(val);
     }
 
@@ -22,6 +31,7 @@ const IndexPage = () => {
     <>
       <Layout>
         <DragDrop sendChatLogParsed={getChatLogParsedFromChild} sendChatImages={getChatImagesFromChild}/>
+        {chatDataCheck.toString()}
       </Layout>
     </>
   );
