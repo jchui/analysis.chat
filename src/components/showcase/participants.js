@@ -1,24 +1,29 @@
 import React from 'react';
-import Anime, { anime } from 'react-anime';
-import AnimatedGIF from '../../../src/images/981-consultation-outline.gif';
 
-const Participants = () => {
-
-
+const Participants = ({
+  chatMessageCount: chatMessageCount,
+  chatParticipantCount: chatParticipantCount,
+}) => {
+  chatMessageCount = chatMessageCount
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return (
     <>
       <div className="whiteBanner">
         <div className="columns">
           <div className="column">
             <div>
-                <h2>We found 5,192 messages between the two of you.</h2>
-                <p>Who do you think messaged more?</p>
+              <h2>
+                We found {chatMessageCount} messages between the{' '}
+                {chatParticipantCount} of you.
+              </h2>
+              <p>Who do you think messaged more?</p>
             </div>
           </div>
         </div>
         <div className="columns">
           <div className="column">
-              <div className="highlightTab" />
+            <div className="highlightTab" />
           </div>
         </div>
       </div>
