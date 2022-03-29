@@ -6,6 +6,7 @@ import JSZip from 'jszip';
 import '../styles/style.scss';
 
 import Layout from '../components/layout';
+import Introduction from '../components/showcase/introduction';
 import DragDrop from '../components/showcase/dragdrop';
 
 const IndexPage = () => {
@@ -30,6 +31,7 @@ const IndexPage = () => {
   return (
     <>
       <Layout>
+          <Introduction />
         <DragDrop sendChatLogParsed={getChatLogParsedFromChild} sendChatImages={getChatImagesFromChild}/>
         {chatDataCheck.toString()}
       </Layout>
