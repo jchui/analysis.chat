@@ -126,12 +126,21 @@ const DragDrop = ({ sendChatLogParsed, sendChatImages }) => {
 
   return (
     <>
-      <div className="dndinput">
-        <div {...getRootProps()} className={style[0]}>
-            <input {...getInputProps()} />
-            <p>Drag 'n' drop some files here, or click to select files</p>
+      <div className="container">
+        <div className="dragdrop">
+          <div className="columns">
+            <div className="column">
+              <div className="dndinput">
+          <div {...getRootProps()} className={style[0]}>
+              <input {...getInputProps()} />
+              <p>Drag 'n' drop your Whatsapp chat here, or click to select your .zip file</p>
+          </div>
         </div>
+            </div>
+          </div>
         </div>
+      </div>
+      
     </>
   );
 };

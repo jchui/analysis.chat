@@ -1,9 +1,10 @@
 @import "~bulma/bulma.sass";
 
-$primary: white;
 $fonts: 'Poppins', sans-serif;
+
 $primaryFontColor: #2e2e2e;
 
+$whatsappGreenColor: #25D366;
 $welcomeBackgroundColor: #FFD23F;
 
 h1 {
@@ -31,6 +32,77 @@ body {
     font-family: $fonts;
     margin: 0;
     padding: 0;
+    color: $primaryFontColor;
+
+    .header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 30px 50px;
+
+        .logo {
+            color: $primaryFontColor;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+    }
+
+    .introduction {
+        background-color: $whatsappGreenColor;
+        margin-top: 90px;
+        padding: 30px 50px;
+    }
+
+    .dragdrop {
+        background-color: $whatsappGreenColor;
+        margin-top: 10px;
+        padding: 30px 50px;
+
+        p {
+            font-size: 16px;
+            color: $primaryFontColor;
+        }
+        
+        .dndinput {
+
+            .base {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+                border-width: 5px;
+                border-radius: 5px;
+                border-color: #eeeeee;
+                border-style: dashed;
+                background-color: #fafafa;
+                color: #bdbdbd;
+                outline: none;
+                transition: border 1s ease-in-out;
+                opacity: 0.8;
+            }
+
+            .base:hover {
+                opacity: 1;
+                transition: 1s;
+            }
+    
+            .focused {
+                border-color: #2196f3;
+            }
+    
+            .accept {
+                border-color: #00e676;
+            }
+    
+            .reject {
+                border-color: #ff1744;
+            }
+        }
+
+    }
 
     .showcase {
 
@@ -76,37 +148,6 @@ body {
             }
         }
 
-    }
-
-    .dndinput {
-
-        .base {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            border-width: 2px;
-            border-radius: 2px;
-            border-color: #eeeeee;
-            border-style: dashed;
-            background-color: #fafafa;
-            color: #bdbdbd;
-            outline: none;
-            transition: border .24s ease-in-out;
-        }
-
-        .focused {
-            border-color: #2196f3;
-        }
-
-        .accept {
-            border-color: #00e676;
-        }
-
-        .reject {
-            border-color: #ff1744;
-        }
     }
 }
 
