@@ -8,7 +8,7 @@ const Header = () => {
     <>
       <div className="header">
         <Link to="../" className="logo">
-          Whatsapp Analysis
+          analysis.chat
         </Link>
       </div>
     </>
