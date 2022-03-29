@@ -110,7 +110,7 @@ body {
 
     .showcase {
 
-        .parallaxWelcomeLayer {
+        .parallaxLayer {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -191,7 +191,7 @@ body {
     body {
         .showcase {
 
-            .parallaxWelcomeLayer {
+            .parallaxLayer {
                 display: block;
             }
 
@@ -233,6 +233,14 @@ body {
                 .is-one-third {
                     text-align: center !important;
                 }
+
+                .column {
+                    text-align: center !important;
+                }
+            }
+
+            canvas {
+                display:none !important;
             }
         }
     }
