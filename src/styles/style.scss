@@ -237,11 +237,12 @@ body {
                 .column {
                     text-align: center !important;
                 }
+                
+                canvas {
+                    display:none !important;
+                }
             }
 
-            canvas {
-                display:none !important;
-            }
         }
     }
 
