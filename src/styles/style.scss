@@ -143,13 +143,35 @@ body {
             margin-top: 5px;
             color: $primaryFontColor;
 
-            .column:nth-child(2) {
+            .is-one-third:nth-child(2) {
                 text-align: center;
             }
 
-            .column:nth-child(3) {
+            .is-one-third:nth-child(3) {
                 text-align: right;
             }
+        }
+
+        .whiteBanner {
+            background-color: #FFF;
+            padding: 30px 50px;
+            color: $primaryFontColor;
+        }
+
+        .whiteDetailsBanner {
+            background-color: #FFF;
+            padding: 30px 50px;
+            color: $primaryFontColor;
+            margin-top: 5px;
+
+            .is-one-third:nth-child(2) {
+                text-align: center;
+            }
+
+            .is-one-third:nth-child(3) {
+                text-align: right;
+            }
+
         }
 
     }
@@ -192,10 +214,25 @@ body {
             .welcomeDetails {
                 margin: 5px 30px 50px 30px;
 
-                .column {
+                .is-one-third {
                     text-align: center !important;
                 }
 
+            }
+
+            .whiteBanner {
+                margin: 5px 30px 50px 30px;
+                p {
+                    margin-top: 20px;
+                }
+            }
+
+            .whiteDetailsBanner {
+                margin: 5px 30px 50px 30px;
+
+                .is-one-third {
+                    text-align: center !important;
+                }
             }
         }
     }

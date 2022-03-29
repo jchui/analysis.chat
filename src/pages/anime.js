@@ -4,6 +4,9 @@ import { Parallax, ParallaxLayer } from '@react-spring/parallax';
 
 import Welcome from '../components/showcase/welcome';
 import WelcomeDetails from '../components/showcase/welcomeDetails';
+import Participants from '../components/showcase/participants';
+import ParticipantMessagingDetails from '../components/showcase/participantMessagingDetails';
+import ParticipantMessagingCount from '../components/showcase/participantMessagingCount';
 
 import '../styles/style.scss';
 
@@ -31,14 +34,14 @@ const IndexPage = () => {
         <ParallaxLayer
           offset={0}
           speed={1}
-          factor={2.75}
-          style={{ backgroundColor: 'blue' }}
+          factor={3.75}
+          style={{ backgroundColor: '#50D927' }}
         />
         <ParallaxLayer
-          offset={1.75}
+          offset={3.75}
           speed={1}
           factor={2.75}
-          style={{ backgroundColor: 'green' }}
+          style={{ backgroundColor: '#6EF0D1' }}
         />
         <ParallaxLayer
           offset={0}
@@ -63,16 +66,33 @@ const IndexPage = () => {
         </ParallaxLayer>
 
         <ParallaxLayer
-          offset={2}
-          speed={-0}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          onClick={() => parallax.current.scrollTo(0)}
+          offset={1}
+          speed={0.8}
+          className="parallaxWelcomeLayer"
         >
-          Rawr
+          <div className="container">
+            <Participants />
+          </div>
+        </ParallaxLayer>
+
+        <ParallaxLayer
+          offset={1.22}
+          speed={0.6}
+          className="parallaxWelcomeLayer"
+        >
+          <div className="container">
+            <ParticipantMessagingDetails />
+          </div>
+        </ParallaxLayer>
+
+        <ParallaxLayer
+          offset={1.40}
+          speed={0.4}
+          className="parallaxWelcomeLayer"
+        >
+          <div className="container">
+            <ParticipantMessagingCount />
+          </div>
         </ParallaxLayer>
       </Parallax>
     </div>
