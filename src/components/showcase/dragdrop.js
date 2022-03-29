@@ -5,20 +5,27 @@ import JSZip from 'jszip';
 
 import '../../styles/style.scss';
 
-const DragDrop = ({ sendChatLogParsed, sendChatImages }) => {
+const DragDrop = ({ sendChatLogParsed, sendChatImages, sendChatName }) => {
+  const [chatLogParsed, setChatLogParsed] = useState();
+  const [chatImages, setChatImages] = useState();
 
-    const [chatLogParsed, setChatLogParsed] = useState();
-    const [chatImages, setChatImages] = useState();
+  const sendChatLogParsedToParent = value => {
+    sendChatLogParsed(value);
+  };
 
-    const sendChatLogParsedToParent = (value) => {
-        sendChatLogParsed(value);
-    }
+  const sendChatImagesToParent = value => {
+    sendChatImages(value);
+  };
 
-    const sendChatImagesToParent = (value) => {
-        sendChatImages(value);
-    }
+  const sendChatNameToParent = value => {
+    sendChatName(value);
+  };
 
-    const onDrop = useCallback(files => {
+  const onDrop = useCallback(files => {
+    if (files.length === 1) {
+      var chatFileName = files[0].name;
+      var chatName = chatFileName.slice(16, -4);
+      sendChatNameToParent(chatName);
 
       // chatLogParsed [{date: , time: , name: , message: }]
       JSZip.loadAsync(files[0])
@@ -101,8 +108,8 @@ const DragDrop = ({ sendChatLogParsed, sendChatImages }) => {
           },
           [chatImages]
         );
-
-    });
+    }
+  });
 
   // react-dropzone props + accept only .zip files
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
@@ -131,16 +138,18 @@ const DragDrop = ({ sendChatLogParsed, sendChatImages }) => {
           <div className="columns">
             <div className="column">
               <div className="dndinput">
-          <div {...getRootProps()} className={style[0]}>
-              <input {...getInputProps()} />
-              <p>Drag 'n' drop your Whatsapp chat here, or click to select your .zip file</p>
-          </div>
-        </div>
+                <div {...getRootProps()} className={style[0]}>
+                  <input {...getInputProps()} />
+                  <p>
+                    Drag 'n' drop your Whatsapp chat here, or click to select
+                    your .zip file
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      
     </>
   );
 };
