@@ -1,13 +1,8 @@
 import React from 'react';
 import Anime, { anime } from 'react-anime';
 
-const WelcomeDetails = ({
-  chatMessageDuration: chatMessageDuration,
-  chatImagesCountSummary: chatImagesCountSummary,
-}) => {
-  chatMessageDuration = "You've been talking for 47 days.";
-  chatImagesCountSummary = 'Over hundreds of images have been shared.';
-  var chatPlaceholder = '<chatPlaceholder>';
+const WelcomeDetails = ({ chatMessageDuration: chatMessageDuration }) => {
+  var chatPlaceholder = 'Scroll down to find out more!';
 
   return (
     <>
@@ -16,14 +11,10 @@ const WelcomeDetails = ({
           <div className="columns">
             <div className="column is-one-third">
               <p>
-                <small>{chatMessageDuration}</small>
+                <small>You've been talking for {chatMessageDuration}.</small>
               </p>
             </div>
-            <div className="column is-one-third">
-              <p>
-                <small>{chatImagesCountSummary}</small>
-              </p>
-            </div>
+            <div className="column is-one-third"></div>
             <div className="column is-one-third">
               <p>
                 <small>{chatPlaceholder}</small>
