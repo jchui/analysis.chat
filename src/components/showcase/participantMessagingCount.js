@@ -57,8 +57,7 @@ const ParticipantMessagingCount = ({
           <div className="column">
             <Pie
               data={chatUserMessageCountGraphData}
-              width={50}
-              height={50}
+              height={150}
               options={options}
             />
           </div>
