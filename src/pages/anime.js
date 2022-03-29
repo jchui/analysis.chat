@@ -34,7 +34,7 @@ const IndexPage = () => {
         <ParallaxLayer
           offset={0}
           speed={1}
-          factor={3.75}
+          factor={4.05}
           style={{ backgroundColor: '#50D927' }}
         />
         <ParallaxLayer
@@ -67,7 +67,7 @@ const IndexPage = () => {
 
         <ParallaxLayer
           offset={1}
-          speed={0.8}
+          speed={1}
           className="parallaxWelcomeLayer"
         >
           <div className="container">
@@ -77,7 +77,7 @@ const IndexPage = () => {
 
         <ParallaxLayer
           offset={1.22}
-          speed={0.6}
+          speed={1}
           className="parallaxWelcomeLayer"
         >
           <div className="container">
@@ -86,8 +86,8 @@ const IndexPage = () => {
         </ParallaxLayer>
 
         <ParallaxLayer
-          offset={1.40}
-          speed={0.4}
+          offset={1.80}
+          speed={0.8}
           className="parallaxWelcomeLayer"
         >
           <div className="container">
