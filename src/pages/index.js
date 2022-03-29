@@ -1,137 +1,127 @@
 import * as React from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
-import JSZip from 'jszip';
+import { useRef, useState } from 'react';
+import { Parallax, ParallaxLayer } from '@react-spring/parallax';
 
 import '../styles/style.scss';
 
+import Layout from '../components/layout';
+import Introduction from '../components/showcase/introduction';
+import DragDrop from '../components/showcase/dragdrop';
+import Welcome from '../components/showcase/welcome';
+import WelcomeDetails from '../components/showcase/welcomeDetails';
+
 const IndexPage = () => {
-  const [chatLogParsed, setChatLogParsed] = useState();
-  const [chatImages, setChatImages] = useState();
-
-  // Open _chat.txt and parse conversation into chatLog and chatFiles
-  const onDrop = useCallback(acceptedFiles => {
-    acceptedFiles.forEach(file => {
-      // chatLogParsed [{date: , time: , name: , message: }]
-      JSZip.loadAsync(file)
-        .then(function (zip) {
-          const chatLogFile = zip.file('_chat.txt');
-          return chatLogFile == null ? null : chatLogFile.async('text');
-        })
-        .then(
-          function (promiseResult) {
-            let chatLog = [];
-            promiseResult == null
-              ? (chatLog = ['[, ] : ', undefined])
-              : (chatLog = promiseResult.split('\r\n'));
-
-            chatLog.pop();
-
-            for (var i = 0; i < chatLog.length; i++) {
-              let tempArray = [];
-
-              let tempDate,
-                tempTime,
-                tempUser,
-                tempMessage,
-                tempUserMessage = '';
-
-              tempDate = chatLog[i].split(', ')[0].split('[')[1];
-
-              tempTime = chatLog[i].split(', ')[1].split('] ')[0];
-
-              tempUserMessage = chatLog[i].split('] ').slice(1).join('] ');
-
-              tempUserMessage.split(': ').slice(1).join(': ')[1] == undefined
-                ? ((tempUser = 'Admin'), (tempMessage = tempUserMessage))
-                : ((tempUser = tempUserMessage.substring(
-                    0,
-                    tempUserMessage.indexOf(': ')
-                  )),
-                  (tempMessage = tempUserMessage.substring(
-                    tempUserMessage.indexOf(': ') + 2
-                  )));
-
-              tempArray.push({
-                date: tempDate,
-                time: tempTime,
-                user: tempUser,
-                message: tempMessage,
-              });
-              chatLog[i] = tempArray[0];
-            }
-
-            setChatLogParsed(chatLog);
-            console.log(chatLog);
-          },
-          [chatLogParsed]
-        );
-
-      // chatImages [{blob_url, image_name}]
-      JSZip.loadAsync(file)
-        .then(function (zip) {
-          var re = /(.jpg|.png|.gif|.ps|.jpeg)$/;
-          var promises = Object.keys(zip.files)
-            .filter(function (fileName) {
-              // don't consider non image files
-              return re.test(fileName.toLowerCase());
-            })
-            .map(function (fileName) {
-              var file = zip.files[fileName];
-              return file.async('blob').then(function (blob) {
-                return [fileName, URL.createObjectURL(blob)];
-              });
-            });
-          return Promise.all(promises);
-        })
-        .then(
-          function (result) {
-            setChatImages(result);
-            console.log(result);
-          },
-          [chatImages]
-        )
-        .catch(function (e) {
-          console.error(e);
-        });
-    });
+  // VARIABLES
+  const [chatDataCheck, setChatDataCheck] = useState(false);
+  const [chatData, setChatData] = useState({
+    chatMessageCount: null,
   });
+  const [chatName, setChatName] = useState();
 
-  // react-dropzone props + accept only .zip files
-  const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
-    useDropzone({
-      onDrop,
-      accept:
-        'application/zip, application/octet-stream, application/x-zip-compressed, multipart/x-zip',
-      multiple: false,
-    });
+  const parallax = useRef();
 
-  // Styling for react-dropzone
-  const style = useMemo(
-    () => ({
-      ...['base'],
-      ...(isFocused ? ['base focused'] : {}),
-      ...(isDragAccept ? ['base accept'] : {}),
-      ...(isDragReject ? ['base reject'] : {}),
-    }),
-    [isFocused, isDragAccept, isDragReject]
-  );
+  // FUNCTIONS
+  const getChatLogParsedFromChild = val => {
+    processChatLogData(val);
+  };
+
+  const getChatImagesFromChild = val => {
+    // Process Images
+  };
+
+  const getChatNameFromChild = val => {
+    console.log(val);
+    setChatName(val);
+    processChatName(val);
+  };
+
+  const processChatLogData = chatLog => {
+    // Check to ensure chat logs are suitable for processing
+    chatLog.length > 1 ? setChatDataCheck(true) : setChatDataCheck(false);
+
+    // Set chatMessageCount
+    setChatData({ chatMessageCount: chatLog.length });
+  };
+
+  const processChatName = chatName => {
+    // Set chatMessageCount
+    setChatName(chatName);
+  };
 
   return (
-    <main>
-      <div className="container">
-        <div className="column">
-          <div className="dndinput">
-            <div {...getRootProps()} className={style[0]}>
-              <input {...getInputProps()} />
-              <p>Drag 'n' drop some files here, or click to select files</p>
+    <>
+      <Layout>
+        {!chatDataCheck ? (
+          <>
+            <Introduction />
+            <DragDrop
+              sendChatLogParsed={getChatLogParsedFromChild}
+              sendChatImages={getChatImagesFromChild}
+              sendChatName={getChatNameFromChild}
+            />
+          </>
+        ) : (
+          <>
+            <div
+              className="showcase"
+              style={{ width: '100%', height: '100%', background: '#253237' }}
+            >
+              <Parallax ref={parallax} pages={3}>
+                <ParallaxLayer
+                  offset={0}
+                  speed={1}
+                  factor={2.75}
+                  style={{ backgroundColor: 'blue' }}
+                />
+                <ParallaxLayer
+                  offset={1.75}
+                  speed={1}
+                  factor={2.75}
+                  style={{ backgroundColor: 'green' }}
+                />
+                <ParallaxLayer
+                  offset={0}
+                  speed={1}
+                  factor={1}
+                  style={{ backgroundColor: 'white' }}
+                />
+
+                <ParallaxLayer
+                  offset={0}
+                  speed={0.1}
+                  onClick={() => parallax.current.scrollTo(1)}
+                  className="parallaxWelcomeLayer"
+                >
+                  <div className="container">
+                    <Welcome
+                      chatName={chatName}
+                      chatMessageCount={chatData.chatMessageCount}
+                    />
+                    <WelcomeDetails
+                      chatName={chatName}
+                      chatMessageCount={chatData.chatMessageCount}
+                    />
+                  </div>
+                </ParallaxLayer>
+
+                <ParallaxLayer
+                  offset={2}
+                  speed={-0}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  onClick={() => parallax.current.scrollTo(0)}
+                >
+                  Rawr
+                </ParallaxLayer>
+              </Parallax>
             </div>
-          </div>
-          {/* <img src={chatImages ? chatImages[0][1] : null} />
-          <div>{chatLogParsed ? chatLogParsed[0]['message'] : null}</div> */}
-        </div>
-      </div>
-    </main>
+          </>
+        )}
+      </Layout>
+    </>
   );
 };
 
