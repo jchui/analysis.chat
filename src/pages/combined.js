@@ -31,9 +31,19 @@ const IndexPage = () => {
   return (
     <>
       <Layout>
-          <Introduction />
-        <DragDrop sendChatLogParsed={getChatLogParsedFromChild} sendChatImages={getChatImagesFromChild}/>
-        {chatDataCheck.toString()}
+        {
+        !chatDataCheck
+        ? (
+            <>
+                <Introduction />
+                <DragDrop sendChatLogParsed={getChatLogParsedFromChild} sendChatImages={getChatImagesFromChild}/>
+            </>
+        ) : (
+            <>
+                {/* Display Information */}
+            </>
+        )
+        }
       </Layout>
     </>
   );
