@@ -14,7 +14,7 @@ const additionalInformation = ({
           <div className="column">
             <div>
               <h2>
-                On average, you send {chatAvgDailyMessages} messages a day.
+                On average, you exchange {chatAvgDailyMessages} messages a day.
               </h2>
               <p>{chatAvgDailyMessagesNote}</p>
             </div>
