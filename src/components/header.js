@@ -7,7 +7,9 @@ const Header = () => {
   return (
     <>
       <div className="header">
-        <Link to="../" className="logo">Whatsapp Analysis</Link>
+        <Link to="../" className="logo">
+          Whatsapp Analysis
+        </Link>
       </div>
     </>
   );
