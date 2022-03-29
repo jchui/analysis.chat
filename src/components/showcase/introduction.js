@@ -6,7 +6,6 @@ import JSZip from 'jszip';
 import '../../styles/style.scss';
 
 const Introduction = () => {
-
   return (
     <>
       <div className="container">
@@ -18,7 +17,6 @@ const Introduction = () => {
           </div>
         </div>
       </div>
-      
     </>
   );
 };
