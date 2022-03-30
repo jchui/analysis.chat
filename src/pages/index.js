@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useRef, useState } from 'react';
 import { Parallax, ParallaxLayer } from '@react-spring/parallax';
 import numWords from 'num-words';
+import { format, formatDistance, formatRelative, subDays } from 'date-fns';
 
 import '../styles/style.scss';
 
@@ -93,20 +94,26 @@ const IndexPage = () => {
 
     const chatParticipantCount = () => {
       let uniqueObjArray = [
-        ...new Map(chatLog.map((item) => [item["user"], item])).values(),
-    ];
+        ...new Map(chatLog.map(item => [item['user'], item])).values(),
+      ];
 
-      var result = numWords(uniqueObjArray.length - 1)
-      
-    return result;
+      var result = numWords(uniqueObjArray.length - 1);
 
-    }
+      return result;
+    };
+
+    const chatFirstMessageDate = () => {
+      var date = chatLog[0].date.split('/');
+      var dateObject = new Date(+date[2], date[1] - 1, +date[0]);
+
+      return format(dateObject, 'do LLLL, y');
+    };
 
     setChatData({
       chatMessageDuration: chatMessageDuration(),
       chatMessageCount: chatMessageCount,
       chatParticipantCount: chatParticipantCount(),
-      chatFirstMessageDate: null,
+      chatFirstMessageDate: chatFirstMessageDate(),
       chatAvgWeeklyMessages: null,
       chatLongestDayStreak: null,
       chatMostActiveUser: null,
