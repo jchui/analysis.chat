@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useRef, useState } from 'react';
 import { Parallax, ParallaxLayer } from '@react-spring/parallax';
+import numWords from 'num-words';
 
 import '../styles/style.scss';
 
@@ -90,10 +91,21 @@ const IndexPage = () => {
 
     const chatMessageCount = chatLog.length;
 
+    const chatParticipantCount = () => {
+      let uniqueObjArray = [
+        ...new Map(chatLog.map((item) => [item["user"], item])).values(),
+    ];
+
+      var result = numWords(uniqueObjArray.length - 1)
+      
+    return result;
+
+    }
+
     setChatData({
       chatMessageDuration: chatMessageDuration(),
       chatMessageCount: chatMessageCount,
-      chatParticipantCount: null,
+      chatParticipantCount: chatParticipantCount(),
       chatFirstMessageDate: null,
       chatAvgWeeklyMessages: null,
       chatLongestDayStreak: null,
