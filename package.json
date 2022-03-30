@@ -27,6 +27,7 @@
     "gatsby-plugin-sass": "^5.10.2",
     "jszip": "^3.7.1",
     "konva": "^8.3.5",
+    "num-words": "^1.2.2",
     "react": "^17.0.1",
     "react-anime": "^4.1.1",
     "react-chartjs-2": "^4.0.1",
