@@ -73,7 +73,7 @@ const IndexPage = () => {
     processChatName(val);
   };
 
-  const processChatLogData = (chatLog) => {
+  const processChatLogData = chatLog => {
     // Check to ensure chat logs are suitable for processing
     chatLog.length > 1 ? setChatDataCheck(true) : setChatDataCheck(false);
 
@@ -94,15 +94,15 @@ const IndexPage = () => {
 
     const chatParticipantCount = () => {
       const frequency = chatLog
-      .map(({ user }) => user)
-      .reduce((users, user) => {
-        const count = users[user] || 0;
-        users[user] = count + 1;
-        return users;
-      }, {});
+        .map(({ user }) => user)
+        .reduce((users, user) => {
+          const count = users[user] || 0;
+          users[user] = count + 1;
+          return users;
+        }, {});
 
-      delete frequency["Admin"];
-      delete frequency["‎You"];
+      delete frequency['Admin'];
+      delete frequency['‎You'];
 
       var result = numWords(Object.keys(frequency).length);
 
@@ -161,81 +161,142 @@ const IndexPage = () => {
 
     const chatMostActiveUser = () => {
       const frequency = chatLog
-      .map(({ user }) => user)
-      .reduce((users, user) => {
-        const count = users[user] || 0;
-        users[user] = count + 1;
-        return users;
-      }, {});
+        .map(({ user }) => user)
+        .reduce((users, user) => {
+          const count = users[user] || 0;
+          users[user] = count + 1;
+          return users;
+        }, {});
 
-      delete frequency["Admin"];
-      delete frequency["‎You"];
+      delete frequency['Admin'];
+      delete frequency['‎You'];
 
       var sortable = [];
       for (var item in frequency) {
-          sortable.push([item, frequency[item]]);
+        sortable.push([item, frequency[item]]);
       }
 
-      sortable.sort(function(a, b) {
-          return b[1] - a[1];
+      sortable.sort(function (a, b) {
+        return b[1] - a[1];
       });
 
       return sortable[0][0];
-    }
+    };
 
     const chatLeastActiveUser = () => {
       const frequency = chatLog
-      .map(({ user }) => user)
-      .reduce((users, user) => {
-        const count = users[user] || 0;
-        users[user] = count + 1;
-        return users;
-      }, {});
+        .map(({ user }) => user)
+        .reduce((users, user) => {
+          const count = users[user] || 0;
+          users[user] = count + 1;
+          return users;
+        }, {});
 
-      delete frequency["Admin"];
-      delete frequency["‎You"];
+      delete frequency['Admin'];
+      delete frequency['‎You'];
 
       var sortable = [];
       for (var item in frequency) {
-          sortable.push([item, frequency[item]]);
+        sortable.push([item, frequency[item]]);
       }
 
-      sortable.sort(function(a, b) {
-          return a[1] - b[1];
+      sortable.sort(function (a, b) {
+        return a[1] - b[1];
       });
 
       return sortable[0][0];
-    }
+    };
 
     const chatTopEmoji = () => {
       var chatLogMessages = {
-        result: chatLog.map(function(item) {
-           return item.message;
-        })
-    }
+        result: chatLog.map(function (item) {
+          return item.message;
+        }),
+      };
 
-    var chatLogMessagesArray = Object.values(chatLogMessages.result);
+      var chatLogMessagesArray = Object.values(chatLogMessages.result);
 
-    var chatLogMessagesBlock = chatLogMessagesArray.join(" ");
+      var chatLogMessagesBlock = chatLogMessagesArray.join(' ');
 
       let emojiFrequency = [...chatLogMessagesBlock].reduce((freq, char) => {
-        if (char >= '\u{1F300}' && char < '\u{1F700}') freq[char] = (freq[char] || 0) + 1;
+        if (char >= '\u{1F300}' && char < '\u{1F700}')
+          freq[char] = (freq[char] || 0) + 1;
         return freq;
       }, {});
 
       var sortable = [];
       for (var item in emojiFrequency) {
-          sortable.push([item, emojiFrequency[item]]);
+        sortable.push([item, emojiFrequency[item]]);
       }
 
-      sortable.sort(function(a, b) {
-          return b[1] - a[1];
+      sortable.sort(function (a, b) {
+        return b[1] - a[1];
       });
 
-      var output = sortable[0][0] + ' ' + sortable[1][0] + ' ' + sortable[2][0] + ' ' + sortable[3][0];
+      var output =
+        sortable[0][0] +
+        ' ' +
+        sortable[1][0] +
+        ' ' +
+        sortable[2][0] +
+        ' ' +
+        sortable[3][0];
 
       return output;
-    }
+    };
+
+    const chatUserMessageCountGraphData = () => {
+      let result = {
+        labels: [],
+        datasets: [
+          {
+            label: 'User',
+            data: [],
+            borderWidth: 1,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+            ],
+          },
+        ],
+      };
+
+      const frequency = chatLog
+        .map(({ user }) => user)
+        .reduce((users, user) => {
+          const count = users[user] || 0;
+          users[user] = count + 1;
+          return users;
+        }, {});
+
+      delete frequency['Admin'];
+      delete frequency['‎You'];
+
+      let tempDatasetArray = [];
+
+      Object.keys(frequency).map(item => {
+        result.labels.push(item);
+        tempDatasetArray.push(frequency[item]);
+      });
+
+      result.datasets[0].data = tempDatasetArray;
+
+      console.log(result);
+
+      return result;
+    };
 
     setChatData({
       chatMessageDuration: chatMessageDuration(),
@@ -254,10 +315,7 @@ const IndexPage = () => {
       chatImagesCount: 23,
       chatTopLinkAddress: null,
       chatTopDay: null,
-      chatUserMessageCountGraphData: {
-        labels: [],
-        datasets: [],
-      },
+      chatUserMessageCountGraphData: chatUserMessageCountGraphData(),
       chatUserMessagingTrendsByTime: {
         labels: [],
         datasets: [],
