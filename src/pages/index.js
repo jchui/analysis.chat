@@ -7,16 +7,53 @@ import '../styles/style.scss';
 import Layout from '../components/layout';
 import Introduction from '../components/showcase/introduction';
 import DragDrop from '../components/showcase/dragdrop';
-import Welcome from '../components/showcase/welcome';
-import WelcomeDetails from '../components/showcase/welcomeDetails';
+import Showcase from './showcase';
 
 const IndexPage = () => {
   // VARIABLES
   const [chatDataCheck, setChatDataCheck] = useState(false);
   const [chatData, setChatData] = useState({
+    chatName: null,
+    chatMessageDuration: null,
     chatMessageCount: null,
+    chatParticipantCount: null,
+    chatFirstMessageDate: null,
+    chatAvgWeeklyMessages: null,
+    chatLongestDayStreak: null,
+    chatMostActiveUser: null,
+    chatConversationStarter: null,
+    chatTopEmoji: null,
+    chatTextingTime: null,
+    chatNightowlUser: null,
+    chatEarlybirdUser: null,
+    chatAvgDailyMessages: null,
+    chatAvgDailyMessagesNote: null,
+    chatImagesCount: null,
+    chatTopLinkAddress: null,
+    chatTopDay: null,
+    chatUserMessageCountGraphData: {
+      labels: [],
+      datasets: [],
+    },
+    chatUserMessagingTrendsByTime: {
+      labels: [],
+      datasets: [],
+    },
+    chatLogFullTimeline: {
+      labels: [],
+      datasets: [],
+    },
+    chatDayRadar:{
+      labels: [],
+      datasets: [],
+    },
+    chatTopLinksSummary:{
+      labels: [],
+      datasets: [],
+    }
   });
   const [chatName, setChatName] = useState();
+  const [chatImages, setChatImages] = useState();
 
   const parallax = useRef();
 
@@ -26,11 +63,10 @@ const IndexPage = () => {
   };
 
   const getChatImagesFromChild = val => {
-    // Process Images
+    processChatImages(val);
   };
 
   const getChatNameFromChild = val => {
-    console.log(val);
     setChatName(val);
     processChatName(val);
   };
@@ -39,8 +75,67 @@ const IndexPage = () => {
     // Check to ensure chat logs are suitable for processing
     chatLog.length > 1 ? setChatDataCheck(true) : setChatDataCheck(false);
 
-    // Set chatMessageCount
-    setChatData({ chatMessageCount: chatLog.length });
+    const chatMessageDuration = () => {
+
+      var date1 = chatLog[0].date.split("/");
+      var date1Object = new Date(+date1[2], date1[1] - 1, +date1[0]); 
+
+      var date2 = chatLog[chatLog.length - 1].date.split("/");
+      var date2Object = new Date(+date2[2], date2[1] - 1, +date2[0]); 
+
+      var difference = date2Object.getTime() - date1Object.getTime() ;
+      var days = Math.ceil(difference / (1000 * 3600 * 24));
+
+      return days;
+    }
+
+    const chatMessageCount = chatLog.length;
+
+    setChatData({ 
+      chatMessageDuration: chatMessageDuration(),
+      chatMessageCount: chatMessageCount,
+      chatParticipantCount: null,
+      chatFirstMessageDate: null,
+      chatAvgWeeklyMessages: null,
+      chatLongestDayStreak: null,
+      chatMostActiveUser: null,
+      chatConversationStarter: null,
+      chatTopEmoji: null,
+      chatTextingTime: null,
+      chatNightowlUser: null,
+      chatEarlybirdUser: null,
+      chatAvgDailyMessages: null,
+      chatAvgDailyMessagesNote: null,
+      chatImagesCount: null,
+      chatTopLinkAddress: null,
+      chatTopDay: null,
+      chatUserMessageCountGraphData: {
+        labels: [],
+        datasets: [],
+      },
+      chatUserMessagingTrendsByTime: {
+        labels: [],
+        datasets: [],
+      },
+      chatLogFullTimeline: {
+        labels: [],
+        datasets: [],
+      },
+      chatDayRadar:{
+        labels: [],
+        datasets: [],
+      },
+      chatTopLinksSummary:{
+        labels: [],
+        datasets: [],
+      }
+     });
+
+  };
+
+  const processChatImages = chatImages => {
+    // Set chatImages
+    setChatImages(chatImages);
   };
 
   const processChatName = chatName => {
@@ -62,62 +157,7 @@ const IndexPage = () => {
           </>
         ) : (
           <>
-            <div
-              className="showcase"
-              style={{ width: '100%', height: '100%', background: '#253237' }}
-            >
-              <Parallax ref={parallax} pages={3}>
-                <ParallaxLayer
-                  offset={0}
-                  speed={1}
-                  factor={2.75}
-                  style={{ backgroundColor: 'blue' }}
-                />
-                <ParallaxLayer
-                  offset={1.75}
-                  speed={1}
-                  factor={2.75}
-                  style={{ backgroundColor: 'green' }}
-                />
-                <ParallaxLayer
-                  offset={0}
-                  speed={1}
-                  factor={1}
-                  style={{ backgroundColor: 'white' }}
-                />
-
-                <ParallaxLayer
-                  offset={0}
-                  speed={0.1}
-                  onClick={() => parallax.current.scrollTo(1)}
-                  className="parallaxWelcomeLayer"
-                >
-                  <div className="container">
-                    <Welcome
-                      chatName={chatName}
-                      chatMessageCount={chatData.chatMessageCount}
-                    />
-                    <WelcomeDetails
-                      chatName={chatName}
-                      chatMessageCount={chatData.chatMessageCount}
-                    />
-                  </div>
-                </ParallaxLayer>
-
-                <ParallaxLayer
-                  offset={2}
-                  speed={-0}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  onClick={() => parallax.current.scrollTo(0)}
-                >
-                  Rawr
-                </ParallaxLayer>
-              </Parallax>
-            </div>
+            <Showcase chatName={chatName} chatImages={chatImages} chatData={chatData} />
           </>
         )}
       </Layout>
