@@ -67,7 +67,7 @@ const Showcase = ({
 
             return (
               <ParallaxLayer
-                offset={randomNumberMinMax(0.8, 2.5)}
+                offset={randomNumberMinMax(0.5, 2.5)}
                 speed={randomNumberMinMax(0.5, 2)}
                 key={key}
               >
@@ -75,7 +75,7 @@ const Showcase = ({
                   src={chatImages[key]}
                   className="parallaxImages"
                   style={{
-                    top: randomNumberMinMax(0, window.innerHeight),
+                    top: randomNumberMinMax(window.innerHeight/2, window.innerHeight + (window.innerHeight/2)),
                     left: randomNumberMinMax(10, window.innerWidth - 10),
                   }}
                 />
@@ -129,7 +129,7 @@ const Showcase = ({
           <div className="container">
             <ParticipantMessagingCount
               chatMostActiveUser={chatData.chatMostActiveUser}
-              chatConversationStarter={chatData.chatConversationStarter}
+              chatLeastActiveUser={chatData.chatLeastActiveUser}
               chatTopEmoji={chatData.chatTopEmoji}
               chatUserMessageCountGraphData={
                 chatData.chatUserMessageCountGraphData
@@ -147,6 +147,52 @@ const Showcase = ({
               chatUserMessagingTrendsByTime={
                 chatData.chatUserMessagingTrendsByTime
               }
+            />
+          </div>
+        </ParallaxLayer>
+
+        {/* ADDITIONAL CONTENT */}
+        <ParallaxLayer offset={2.3} speed={1.8} className="parallaxLayer">
+          <div className="container">
+            <AdditionalInformation
+              chatAvgDailyMessages={chatData.chatAvgDailyMessages}
+              chatAvgDailyMessagesNote={chatData.chatAvgDailyMessagesNote}
+            />
+          </div>
+        </ParallaxLayer>
+
+        <ParallaxLayer offset={2.52} speed={1.8} className="parallaxLayer">
+          <div className="container">
+            <AdditionalInformationDetails
+              chatImagesCount={chatData.chatImagesCount}
+              chatTopLinkAddress={chatData.chatTopLinkAddress}
+              chatTopDay={chatData.chatTopDay}
+            />
+          </div>
+        </ParallaxLayer>
+
+        <ParallaxLayer offset={2.999} speed={0.8} className="parallaxLayer">
+          <div className="container">
+            <AdditionalInformationSummary
+              chatTopLinksSummary={chatData.chatTopLinksSummary}
+              chatDayRadar={chatData.chatDayRadar}
+              chatLogFullTimeline={chatData.chatLogFullTimeline}
+            />
+          </div>
+        </ParallaxLayer>
+
+        {/* SHARING CONTENT */}
+        <ParallaxLayer offset={3.2} speed={1} className="parallaxLayer">
+          <div className="container">
+            <Sharing
+              chatName={chatName}
+              chatFirstMessageDate={chatData.chatFirstMessageDate}
+              chatMessageCount={chatData.chatMessageCount}
+              chatImagesCount={chatData.chatImagesCount}
+              chatAvgDailyMessages={chatData.chatAvgDailyMessages}
+              chatTopLinkAddress={chatData.chatTopLinkAddress}
+              chatTextingTime={chatData.chatTextingTime}
+              chatLongestDayStreak={chatData.chatLongestDayStreak}
             />
           </div>
         </ParallaxLayer>
