@@ -76,6 +76,8 @@ const DragDrop = ({ sendChatLogParsed, sendChatImages, sendChatName }) => {
               chatLog[i] = tempArray[0];
             }
 
+            chatLog.shift();
+
             setChatLogParsed(chatLog);
             sendChatLogParsedToParent(chatLog);
             // console.log(chatLog);
