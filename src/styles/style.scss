@@ -116,6 +116,12 @@ body {
             align-items: center;
         }
 
+        .parallaxImages {
+            max-height: 150px;
+            max-width: 150px;
+            position: relative;
+        }
+
         .highlightTab {
             background-color: $primaryFontColor;
             margin-top: 12px;

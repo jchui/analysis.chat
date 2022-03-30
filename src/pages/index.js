@@ -43,14 +43,14 @@ const IndexPage = () => {
       labels: [],
       datasets: [],
     },
-    chatDayRadar:{
+    chatDayRadar: {
       labels: [],
       datasets: [],
     },
-    chatTopLinksSummary:{
+    chatTopLinksSummary: {
       labels: [],
       datasets: [],
-    }
+    },
   });
   const [chatName, setChatName] = useState();
   const [chatImages, setChatImages] = useState();
@@ -76,22 +76,21 @@ const IndexPage = () => {
     chatLog.length > 1 ? setChatDataCheck(true) : setChatDataCheck(false);
 
     const chatMessageDuration = () => {
+      var date1 = chatLog[0].date.split('/');
+      var date1Object = new Date(+date1[2], date1[1] - 1, +date1[0]);
 
-      var date1 = chatLog[0].date.split("/");
-      var date1Object = new Date(+date1[2], date1[1] - 1, +date1[0]); 
+      var date2 = chatLog[chatLog.length - 1].date.split('/');
+      var date2Object = new Date(+date2[2], date2[1] - 1, +date2[0]);
 
-      var date2 = chatLog[chatLog.length - 1].date.split("/");
-      var date2Object = new Date(+date2[2], date2[1] - 1, +date2[0]); 
-
-      var difference = date2Object.getTime() - date1Object.getTime() ;
+      var difference = date2Object.getTime() - date1Object.getTime();
       var days = Math.ceil(difference / (1000 * 3600 * 24));
 
       return days;
-    }
+    };
 
     const chatMessageCount = chatLog.length;
 
-    setChatData({ 
+    setChatData({
       chatMessageDuration: chatMessageDuration(),
       chatMessageCount: chatMessageCount,
       chatParticipantCount: null,
@@ -121,21 +120,32 @@ const IndexPage = () => {
         labels: [],
         datasets: [],
       },
-      chatDayRadar:{
+      chatDayRadar: {
         labels: [],
         datasets: [],
       },
-      chatTopLinksSummary:{
+      chatTopLinksSummary: {
         labels: [],
         datasets: [],
-      }
-     });
+      },
+    });
+  };
 
+  const generateRandomChatImage = chatImages => {
+    var result = chatImages[Math.floor(Math.random() * chatImages.length)][1];
+
+    return result;
   };
 
   const processChatImages = chatImages => {
+    let randomisedImagesArray = [];
+
+    for (let i = 0; i < 100; i++) {
+      randomisedImagesArray.push(generateRandomChatImage(chatImages));
+    }
+
     // Set chatImages
-    setChatImages(chatImages);
+    setChatImages(randomisedImagesArray);
   };
 
   const processChatName = chatName => {
@@ -157,7 +167,11 @@ const IndexPage = () => {
           </>
         ) : (
           <>
-            <Showcase chatName={chatName} chatImages={chatImages} chatData={chatData} />
+            <Showcase
+              chatName={chatName}
+              chatImages={chatImages}
+              chatData={chatData}
+            />
           </>
         )}
       </Layout>

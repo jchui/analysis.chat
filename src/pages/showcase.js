@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Parallax, ParallaxLayer } from '@react-spring/parallax';
 
 import Welcome from '../components/showcase/welcome';
@@ -15,15 +15,15 @@ import Sharing from '../components/showcase/sharing';
 const Showcase = ({
   chatName: chatName,
   chatImages: chatImages,
-  chatData: chatData
+  chatData: chatData,
 }) => {
-    // Variables
-    const parallax = useRef();
+  // Variables
+  const parallax = useRef();
 
-    console.log(chatData);
+  // console.log(chatData);
 
   return (
-<div className="showcase" style={{ width: '100%', height: '100%' }}>
+    <div className="showcase" style={{ width: '100%', height: '100%' }}>
       {/* PARALLAX BACKGROUNDS */}
       <Parallax ref={parallax} pages={4.1}>
         <ParallaxLayer // Sharing
@@ -71,30 +71,36 @@ const Showcase = ({
           ></div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={1} speed={0.4}>
-          <div
-            style={{
-              width: 50,
-              height: 100,
-              backgroundColor: 'purple',
-              position: 'relative',
-              left: 120,
-              top: 120,
-            }}
-          ></div>
-        </ParallaxLayer>
+        {chatImages ? (
+          Object.keys(chatImages).map(key => {
+            const randomNumberMinMax = (min, max) => {
+              var result = Math.random() * max + min;
 
-        <ParallaxLayer offset={1} speed={1.3}>
-          <div
-            style={{
-              width: 50,
-              height: 100,
-              backgroundColor: 'purple',
-              position: 'relative',
-              left: 300,
-            }}
-          ></div>
-        </ParallaxLayer>
+              console.log(result);
+
+              return result;
+            };
+
+            return (
+              <ParallaxLayer
+                offset={randomNumberMinMax(0.8, 2.5)}
+                speed={randomNumberMinMax(0.5, 2)}
+              >
+                <img
+                  key={key}
+                  src={chatImages[key]}
+                  className="parallaxImages"
+                  style={{
+                    top: randomNumberMinMax(0, window.innerHeight),
+                    left: randomNumberMinMax(10, window.innerWidth - 10),
+                  }}
+                />
+              </ParallaxLayer>
+            );
+          })
+        ) : (
+          <></>
+        )}
 
         {/* PARALLAX CONTENT */}
         {/* WELCOME CONTENT */}
@@ -105,11 +111,15 @@ const Showcase = ({
           className="parallaxLayer"
         >
           <div className="container">
-            <Welcome chatName={chatName} chatMessageCount={chatData.chatMessageCount} />
-            <WelcomeDetails chatMessageDuration={chatData.chatMessageDuration} />
+            <Welcome
+              chatName={chatName}
+              chatMessageCount={chatData.chatMessageCount}
+            />
+            <WelcomeDetails
+              chatMessageDuration={chatData.chatMessageDuration}
+            />
           </div>
         </ParallaxLayer>
-
       </Parallax>
     </div>
   );
