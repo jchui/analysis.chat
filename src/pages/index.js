@@ -109,12 +109,16 @@ const IndexPage = () => {
       return format(dateObject, 'do LLLL, y');
     };
 
+    const chatAvgWeeklyMessages = Math.floor(
+      chatMessageCount / chatMessageDuration()
+    );
+
     setChatData({
       chatMessageDuration: chatMessageDuration(),
       chatMessageCount: chatMessageCount,
       chatParticipantCount: chatParticipantCount(),
       chatFirstMessageDate: chatFirstMessageDate(),
-      chatAvgWeeklyMessages: null,
+      chatAvgWeeklyMessages: chatAvgWeeklyMessages,
       chatLongestDayStreak: null,
       chatMostActiveUser: null,
       chatConversationStarter: null,
