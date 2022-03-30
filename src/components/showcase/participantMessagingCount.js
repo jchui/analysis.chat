@@ -26,7 +26,7 @@ export const options = {
 
 const ParticipantMessagingCount = ({
   chatMostActiveUser: chatMostActiveUser,
-  chatConversationStarter: chatConversationStarter,
+  chatLeastActiveUser: chatLeastActiveUser,
   chatTopEmoji: chatTopEmoji,
   chatUserMessageCountGraphData: chatUserMessageCountGraphData,
 }) => {
@@ -42,9 +42,9 @@ const ParticipantMessagingCount = ({
             </p>
             <br />
             <p>
-              <small>The who usually starts a conversation is</small>
+              <small>The quiet one seems to be</small>
               <br />
-              {chatConversationStarter}
+              {chatLeastActiveUser}
             </p>
             <br />
             <p>
