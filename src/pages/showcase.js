@@ -75,7 +75,10 @@ const Showcase = ({
                   src={chatImages[key]}
                   className="parallaxImages"
                   style={{
-                    top: randomNumberMinMax(window.innerHeight/2, window.innerHeight + (window.innerHeight/2)),
+                    top: randomNumberMinMax(
+                      window.innerHeight / 2,
+                      window.innerHeight + window.innerHeight / 2
+                    ),
                     left: randomNumberMinMax(10, window.innerWidth - 10),
                   }}
                 />
