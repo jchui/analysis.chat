@@ -113,13 +113,58 @@ const IndexPage = () => {
       chatMessageCount / chatMessageDuration()
     );
 
+    const chatLongestDayStreak = () => {
+      let chatLogCopy = chatLog;
+
+      Object.keys(chatLogCopy).map(key => {
+        delete chatLogCopy[key].time;
+        delete chatLogCopy[key].user;
+        delete chatLogCopy[key].message;
+      });
+
+      let uniqueChatLogDates = [
+        ...new Map(chatLogCopy.map(item => [item['date'], item])).values(),
+      ];
+
+      let topStreakCounter = 0,
+        tempStreakCounter = 0;
+      let prevDate = new Date(),
+        currentDate = new Date();
+
+      Object.keys(uniqueChatLogDates).map(key => {
+        var date = uniqueChatLogDates[key].date.split('/');
+        var dateObject = new Date(+date[2], date[1] - 1, +date[0]);
+
+        currentDate = dateObject;
+        if (prevDate == null) {
+          tempStreakCounter = tempStreakCounter + 1;
+        } else {
+          var datediff = Math.ceil(
+            Math.abs(currentDate - prevDate) / (1000 * 60 * 60 * 24)
+          );
+          if (datediff <= 1) {
+            tempStreakCounter = tempStreakCounter + 1;
+          } else {
+            tempStreakCounter = 0;
+          }
+        }
+
+        if (tempStreakCounter > topStreakCounter) {
+          topStreakCounter = tempStreakCounter;
+        }
+        prevDate = currentDate;
+      });
+
+      return topStreakCounter;
+    };
+
     setChatData({
       chatMessageDuration: chatMessageDuration(),
       chatMessageCount: chatMessageCount,
       chatParticipantCount: chatParticipantCount(),
       chatFirstMessageDate: chatFirstMessageDate(),
       chatAvgWeeklyMessages: chatAvgWeeklyMessages,
-      chatLongestDayStreak: null,
+      chatLongestDayStreak: chatLongestDayStreak(),
       chatMostActiveUser: null,
       chatConversationStarter: null,
       chatTopEmoji: null,
