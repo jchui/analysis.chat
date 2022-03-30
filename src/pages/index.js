@@ -61,7 +61,7 @@ const IndexPage = () => {
 
   // FUNCTIONS
   const getChatLogParsedFromChild = val => {
-    processChatLogData(val);
+    processChatLogData(val, chatName);
   };
 
   const getChatImagesFromChild = val => {
@@ -73,7 +73,7 @@ const IndexPage = () => {
     processChatName(val);
   };
 
-  const processChatLogData = chatLog => {
+  const processChatLogData = (chatLog) => {
     // Check to ensure chat logs are suitable for processing
     chatLog.length > 1 ? setChatDataCheck(true) : setChatDataCheck(false);
 
@@ -93,11 +93,18 @@ const IndexPage = () => {
     const chatMessageCount = chatLog.length;
 
     const chatParticipantCount = () => {
-      let uniqueObjArray = [
-        ...new Map(chatLog.map(item => [item['user'], item])).values(),
-      ];
+      const frequency = chatLog
+      .map(({ user }) => user)
+      .reduce((users, user) => {
+        const count = users[user] || 0;
+        users[user] = count + 1;
+        return users;
+      }, {});
 
-      var result = numWords(uniqueObjArray.length - 1);
+      delete frequency["Admin"];
+      delete frequency["‎You"];
+
+      var result = numWords(Object.keys(frequency).length);
 
       return result;
     };
@@ -115,12 +122,6 @@ const IndexPage = () => {
 
     const chatLongestDayStreak = () => {
       let chatLogCopy = chatLog;
-
-      Object.keys(chatLogCopy).map(key => {
-        delete chatLogCopy[key].time;
-        delete chatLogCopy[key].user;
-        delete chatLogCopy[key].message;
-      });
 
       let uniqueChatLogDates = [
         ...new Map(chatLogCopy.map(item => [item['date'], item])).values(),
@@ -158,6 +159,84 @@ const IndexPage = () => {
       return topStreakCounter;
     };
 
+    const chatMostActiveUser = () => {
+      const frequency = chatLog
+      .map(({ user }) => user)
+      .reduce((users, user) => {
+        const count = users[user] || 0;
+        users[user] = count + 1;
+        return users;
+      }, {});
+
+      delete frequency["Admin"];
+      delete frequency["‎You"];
+
+      var sortable = [];
+      for (var item in frequency) {
+          sortable.push([item, frequency[item]]);
+      }
+
+      sortable.sort(function(a, b) {
+          return b[1] - a[1];
+      });
+
+      return sortable[0][0];
+    }
+
+    const chatLeastActiveUser = () => {
+      const frequency = chatLog
+      .map(({ user }) => user)
+      .reduce((users, user) => {
+        const count = users[user] || 0;
+        users[user] = count + 1;
+        return users;
+      }, {});
+
+      delete frequency["Admin"];
+      delete frequency["‎You"];
+
+      var sortable = [];
+      for (var item in frequency) {
+          sortable.push([item, frequency[item]]);
+      }
+
+      sortable.sort(function(a, b) {
+          return a[1] - b[1];
+      });
+
+      return sortable[0][0];
+    }
+
+    const chatTopEmoji = () => {
+      var chatLogMessages = {
+        result: chatLog.map(function(item) {
+           return item.message;
+        })
+    }
+
+    var chatLogMessagesArray = Object.values(chatLogMessages.result);
+
+    var chatLogMessagesBlock = chatLogMessagesArray.join(" ");
+
+      let emojiFrequency = [...chatLogMessagesBlock].reduce((freq, char) => {
+        if (char >= '\u{1F300}' && char < '\u{1F700}') freq[char] = (freq[char] || 0) + 1;
+        return freq;
+      }, {});
+
+      var sortable = [];
+      for (var item in emojiFrequency) {
+          sortable.push([item, emojiFrequency[item]]);
+      }
+
+      sortable.sort(function(a, b) {
+          return b[1] - a[1];
+      });
+
+      var output = sortable[0][0] + ' ' + sortable[1][0] + ' ' + sortable[2][0] + ' ' + sortable[3][0];
+
+      return output;
+    }
+
     setChatData({
       chatMessageDuration: chatMessageDuration(),
       chatMessageCount: chatMessageCount,
@@ -165,15 +244,15 @@ const IndexPage = () => {
       chatFirstMessageDate: chatFirstMessageDate(),
       chatAvgWeeklyMessages: chatAvgWeeklyMessages,
       chatLongestDayStreak: chatLongestDayStreak(),
-      chatMostActiveUser: null,
-      chatConversationStarter: null,
-      chatTopEmoji: null,
+      chatMostActiveUser: chatMostActiveUser(),
+      chatLeastActiveUser: chatLeastActiveUser(),
+      chatTopEmoji: chatTopEmoji(),
       chatTextingTime: null,
       chatNightowlUser: null,
       chatEarlybirdUser: null,
-      chatAvgDailyMessages: null,
+      chatAvgDailyMessages: '',
       chatAvgDailyMessagesNote: null,
-      chatImagesCount: null,
+      chatImagesCount: 23,
       chatTopLinkAddress: null,
       chatTopDay: null,
       chatUserMessageCountGraphData: {
