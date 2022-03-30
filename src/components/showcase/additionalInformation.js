@@ -2,7 +2,6 @@ import React from 'react';
 
 const additionalInformation = ({
   chatAvgDailyMessages: chatAvgDailyMessages,
-  chatAvgDailyMessagesNote: chatAvgDailyMessagesNote,
 }) => {
   chatAvgDailyMessages = chatAvgDailyMessages
     .toString()
@@ -16,7 +15,7 @@ const additionalInformation = ({
               <h2>
                 On average, you exchange {chatAvgDailyMessages} messages a day.
               </h2>
-              <p>{chatAvgDailyMessagesNote}</p>
+              <p>But you probably already know that.</p>
             </div>
           </div>
         </div>

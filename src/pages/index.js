@@ -251,7 +251,6 @@ const IndexPage = () => {
       chatNightowlUser: null,
       chatEarlybirdUser: null,
       chatAvgDailyMessages: '',
-      chatAvgDailyMessagesNote: null,
       chatImagesCount: 23,
       chatTopLinkAddress: null,
       chatTopDay: null,

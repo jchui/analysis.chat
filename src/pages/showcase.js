@@ -156,7 +156,6 @@ const Showcase = ({
           <div className="container">
             <AdditionalInformation
               chatAvgDailyMessages={chatData.chatAvgDailyMessages}
-              chatAvgDailyMessagesNote={chatData.chatAvgDailyMessagesNote}
             />
           </div>
         </ParallaxLayer>
