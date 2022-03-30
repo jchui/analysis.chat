@@ -58,26 +58,10 @@ const Showcase = ({
         />
 
         {/* PARALLAX IMAGES */}
-        <ParallaxLayer offset={1} speed={1}>
-          <div
-            style={{
-              width: 50,
-              height: 100,
-              backgroundColor: 'purple',
-              position: 'relative',
-              left: 100,
-              top: '-100%',
-            }}
-          ></div>
-        </ParallaxLayer>
-
         {chatImages ? (
           Object.keys(chatImages).map(key => {
             const randomNumberMinMax = (min, max) => {
               var result = Math.random() * max + min;
-
-              console.log(result);
-
               return result;
             };
 
@@ -85,9 +69,9 @@ const Showcase = ({
               <ParallaxLayer
                 offset={randomNumberMinMax(0.8, 2.5)}
                 speed={randomNumberMinMax(0.5, 2)}
+                key={key}
               >
                 <img
-                  key={key}
                   src={chatImages[key]}
                   className="parallaxImages"
                   style={{
@@ -117,6 +101,52 @@ const Showcase = ({
             />
             <WelcomeDetails
               chatMessageDuration={chatData.chatMessageDuration}
+            />
+          </div>
+        </ParallaxLayer>
+
+        {/* PARTICIPANTS CONTENT */}
+        <ParallaxLayer offset={1} speed={1} className="parallaxLayer">
+          <div className="container">
+            <Participants
+              chatMessageCount={chatData.chatMessageCount}
+              chatParticipantCount={chatData.chatParticipantCount}
+            />
+          </div>
+        </ParallaxLayer>
+
+        <ParallaxLayer offset={1.22} speed={1} className="parallaxLayer">
+          <div className="container">
+            <ParticipantMessagingDetails
+              chatFirstMessageDate={chatData.chatFirstMessageDate}
+              chatAvgWeeklyMessages={chatData.chatAvgWeeklyMessages}
+              chatLongestDayStreak={chatData.chatLongestDayStreak}
+            />
+          </div>
+        </ParallaxLayer>
+
+        <ParallaxLayer offset={1.6} speed={0.8} className="parallaxLayer">
+          <div className="container">
+            <ParticipantMessagingCount
+              chatMostActiveUser={chatData.chatMostActiveUser}
+              chatConversationStarter={chatData.chatConversationStarter}
+              chatTopEmoji={chatData.chatTopEmoji}
+              chatUserMessageCountGraphData={
+                chatData.chatUserMessageCountGraphData
+              }
+            />
+          </div>
+        </ParallaxLayer>
+
+        <ParallaxLayer offset={1.99} speed={0.4} className="parallaxLayer">
+          <div className="container">
+            <ParticipantMessagingTimeline
+              chatTextingTime={chatData.chatTextingTime}
+              chatNightowlUser={chatData.chatNightowlUser}
+              chatEarlybirdUser={chatData.chatEarlybirdUser}
+              chatUserMessagingTrendsByTime={
+                chatData.chatUserMessagingTrendsByTime
+              }
             />
           </div>
         </ParallaxLayer>
