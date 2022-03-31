@@ -1,13 +1,13 @@
 {
-  "name": "whatsapp-analysis",
-  "version": "1.0.0",
+  "name": "analysis.chat",
+  "version": "1.1.0",
   "private": true,
-  "description": "whatsapp-analysis",
+  "description": "analysis.chat",
   "author": "Jeremy Chui",
   "keywords": [
     "gatsby",
     "jchui",
-    "whatsapp"
+    "analysis.chat"
   ],
   "scripts": {
     "develop": "gatsby develop",
