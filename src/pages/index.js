@@ -1,5 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
+import { parseAcceptedFile } from '../components/functions';
+
 import Dropzone from '../components/dropzone';
 
 import '../styles/style.scss';
@@ -7,12 +9,13 @@ import '../styles/style.scss';
 const IndexPage = () => {
   const [droppedFile, setDroppedFile] = useState([]);
 
-  const handleFileDrop = useCallback(acceptedFiles => {
-    if (acceptedFiles == 0) {
+  const handleFileDrop = useCallback(acceptedFile => {
+    if (acceptedFile == 0) {
         console.log("File Rejected.");
     } else {
-        console.log(acceptedFiles);
-        setDroppedFile(acceptedFiles);
+        console.log(acceptedFile);
+        console.log(parseAcceptedFile(acceptedFile));
+        setDroppedFile(acceptedFile);
     }
 }, []);
 
