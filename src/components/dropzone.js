@@ -2,14 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 function Dropzone(props) {
-    const { onDrop } = props;
+  const { onDrop } = props;
 
   const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
     useDropzone({
-        onDrop,
+      onDrop,
       accept:
         'application/zip, application/octet-stream, application/x-zip-compressed, multipart/x-zip',
-        multiple: false,
+      multiple: false,
     });
 
   return (
