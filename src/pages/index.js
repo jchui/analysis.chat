@@ -7,12 +7,26 @@ import Showcase from '../components/showcase';
 
 import '../styles/style.scss';
 
+function awaitDataParsing(acceptedFile) {
+  const parsedData = parseAcceptedFile(acceptedFile);
+  return Promise.resolve(parsedData);
+}
+
 const IndexPage = () => {
+  const [loading, setLoading] = useState(false);
   const [chatLogData, setChatLogData] = useState();
 
   const handleFileDrop = useCallback(acceptedFile => {
     if (acceptedFile != 0) {
-      setChatLogData(parseAcceptedFile(acceptedFile));
+      setLoading(true);
+
+      awaitDataParsing(acceptedFile).then(
+        (data) => {
+          setLoading(false);
+          setChatLogData(data);
+        }
+      )
+
     }
   }, []);
 
@@ -21,6 +35,7 @@ const IndexPage = () => {
   return (
     <main>
       <Dropzone onDrop={handleFileDrop} />
+      {loading && <p>Loading</p>}    
       {chatLogData != undefined && <Showcase chatLogData={chatLogData} />}
     </main>
   );
