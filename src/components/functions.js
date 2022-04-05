@@ -62,6 +62,7 @@ async function parseAcceptedFile(acceptedFile) {
   output.chatLog = await chatLogPromise;
 
   if (output.chatLog.length != 0) {
+    output.data = processChatLogData(output.chatLog);
     output.status = true;
   }
 
@@ -153,5 +154,30 @@ function parseChatLog(acceptedFile) {
 
   return chatLog;
 }
+
+function processChatLogData(chatLogData) {
+  let data = {};
+
+  data.chatMessageDuration = chatMessageDuration(chatLogData);
+
+  return data;
+}
+
+function chatMessageDuration(chatLogData) {
+  var earliestDate = chatLogData[0].date.split('/');
+  var earliestDateObject = new Date(
+    +earliestDate[2],
+    earliestDate[1] - 1,
+    +earliestDate[0]
+  );
+
+  var lastDate = chatLogData[chatLogData.length - 1].date.split('/');
+  var lastDateObject = new Date(+lastDate[2], lastDate[1] - 1, +lastDate[0]);
+
+  var difference = lastDateObject.getTime() - earliestDateObject.getTime();
+  var dateDifference = Math.ceil(difference / (1000 * 3600 * 24));
+
+  return dateDifference;
+};
 
 export { parseAcceptedFile };
