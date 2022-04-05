@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import JSZip from 'jszip';
 import numWords from 'num-words';
+import { format } from 'date-fns';
 
 async function parseAcceptedFile(acceptedFile) {
   let output = {
@@ -119,11 +120,12 @@ function parseChatLog(acceptedFile) {
 }
 
 function processChatLogData(chatLog) {
-  let data = {};
-
-  data.chatMessageDuration = chatMessageDuration(chatLog);
-  data.chatMessageCount = chatMessageCount(chatLog);
-  data.chatParticipantCount = chatParticipantCount(chatLog);
+  let data = {
+    chatMessageDuration: chatMessageDuration(chatLog),
+    chatMessageCount: chatMessageCount(chatLog),
+    chatParticipantCount: chatParticipantCount(chatLog),
+    chatFirstMessageDate: chatFirstMessageDate(chatLog),
+  };
 
   return data;
 }
@@ -168,6 +170,13 @@ function chatParticipantCount(chatLog) {
   var result = numWords(Object.keys(chatLogUsers).length);
 
   return result;
+}
+
+function chatFirstMessageDate(chatLog) {
+  var date = chatLog[0].date.split('/');
+  var dateObject = new Date(+date[2], date[1] - 1, +date[0]);
+
+  return format(dateObject, 'do LLLL y');
 }
 
 export { parseAcceptedFile };
