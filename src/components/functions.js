@@ -3,6 +3,7 @@ import JSZip from 'jszip';
 
 async function parseAcceptedFile(acceptedFile) {
   let output = {
+    status: false,
     chatName: null,
     chatImages: [],
     chatLog: [],
@@ -59,6 +60,10 @@ async function parseAcceptedFile(acceptedFile) {
   output.chatName = title;
   output.chatImages = await chatImagesPromise;
   output.chatLog = await chatLogPromise;
+
+  if (output.chatLog.length != 0) {
+    output.status = true;
+  }
 
   console.log(output);
 
