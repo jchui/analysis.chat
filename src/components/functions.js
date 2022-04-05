@@ -130,6 +130,7 @@ function processChatLogData(chatLog) {
     chatMostActiveUser: chatMostActiveUser(chatLog),
     chatLeastActiveUser: chatLeastActiveUser(chatLog),
     chatTopEmoji: chatTopEmoji(chatLog),
+    chatUserMessageCountGraphData: chatUserMessageCountGraphData(chatLog),
   };
 
   return data;
@@ -307,6 +308,57 @@ function chatTopEmoji(chatLog) {
     sortable[3][0];
 
   return output;
+}
+
+function chatUserMessageCountGraphData(chatLog) {
+  let result = {
+    labels: [],
+    datasets: [
+      {
+        label: 'User',
+        data: [],
+        borderWidth: 1,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+      },
+    ],
+  };
+
+  const frequency = chatLog
+    .map(({ user }) => user)
+    .reduce((users, user) => {
+      const count = users[user] || 0;
+      users[user] = count + 1;
+      return users;
+    }, {});
+
+  delete frequency['Admin'];
+  delete frequency['‎You'];
+
+  let tempDatasetArray = [];
+
+  Object.keys(frequency).map(item => {
+    result.labels.push(item);
+    tempDatasetArray.push(frequency[item]);
+  });
+
+  result.datasets[0].data = tempDatasetArray;
+
+  return result;
 }
 
 export { parseAcceptedFile };
