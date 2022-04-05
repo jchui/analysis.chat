@@ -126,6 +126,7 @@ function processChatLogData(chatLog) {
     chatMessageCount: chatMessageCount(chatLog),
     chatParticipantCount: chatParticipantCount(chatLog),
     chatFirstMessageDate: chatFirstMessageDate(chatLog),
+    chatLongestDayStreak: chatLongestDayStreak(chatLog),
   };
 
   return data;
@@ -178,6 +179,45 @@ function chatFirstMessageDate(chatLog) {
   var dateObject = new Date(+date[2], date[1] - 1, +date[0]);
 
   return format(dateObject, 'do LLLL y');
+}
+
+function chatLongestDayStreak(chatLog) {
+  let chatLogCopy = chatLog;
+
+  let uniqueChatLogDates = [
+    ...new Map(chatLogCopy.map(item => [item['date'], item])).values(),
+  ];
+
+  let topStreakCounter = 0,
+    tempStreakCounter = 0;
+  let prevDate = new Date(),
+    currentDate = new Date();
+
+  Object.keys(uniqueChatLogDates).map(key => {
+    var date = uniqueChatLogDates[key].date.split('/');
+    var dateObject = new Date(+date[2], date[1] - 1, +date[0]);
+
+    currentDate = dateObject;
+    if (prevDate == null) {
+      tempStreakCounter = tempStreakCounter + 1;
+    } else {
+      var datediff = Math.ceil(
+        Math.abs(currentDate - prevDate) / (1000 * 60 * 60 * 24)
+      );
+      if (datediff <= 1) {
+        tempStreakCounter = tempStreakCounter + 1;
+      } else {
+        tempStreakCounter = 0;
+      }
+    }
+
+    if (tempStreakCounter > topStreakCounter) {
+      topStreakCounter = tempStreakCounter;
+    }
+    prevDate = currentDate;
+  });
+
+  return topStreakCounter;
 }
 
 export { parseAcceptedFile };
