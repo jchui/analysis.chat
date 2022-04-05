@@ -130,10 +130,31 @@ function processChatLogData(chatLog) {
     chatMostActiveUser: chatMostActiveUser(chatLog),
     chatLeastActiveUser: chatLeastActiveUser(chatLog),
     chatTopEmoji: chatTopEmoji(chatLog),
-    chatUserMessageCountGraphData: chatUserMessageCountGraphData(chatLog),
     chatTextingTime: chatTextingTime(chatLog),
     chatAvgWeeklyMessages: chatAvgWeeklyMessages(chatLog),
     chatAvgDailyMessages: chatAvgDailyMessages(chatLog),
+    chatNightowlUser: null,
+    chatEarlybirdUser: null,
+    chatImagesCount: null,
+    chatTopLinkAddress: null,
+    chatTopDay: null,
+    chatUserMessageCountGraphData: chatUserMessageCountGraphData(chatLog),
+    chatUserMessagingTrendsByTime: {
+      labels: [],
+      datasets: [],
+    },
+    chatLogFullTimeline: {
+      labels: [],
+      datasets: [],
+    },
+    chatDayRadar: {
+      labels: [],
+      datasets: [],
+    },
+    chatTopLinksSummary: {
+      labels: [],
+      datasets: [],
+    },
   };
 
   return data;
@@ -411,7 +432,7 @@ function chatTextingTime(chatLog) {
 
 function chatAvgWeeklyMessages(chatLog) {
   return Math.floor(
-    chatMessageCount(chatLog) / chatMessageDuration(chatLog) * 7
+    (chatMessageCount(chatLog) / chatMessageDuration(chatLog)) * 7
   );
 }
 
