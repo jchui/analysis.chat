@@ -136,7 +136,7 @@ function processChatLogData(chatLog, chatImages) {
     chatNightowlUser: chatNightowlUser(chatLog),
     chatEarlybirdUser: chatEarlybirdUser(chatLog),
     chatImagesCount: chatImagesCount(chatImages),
-    chatTopLinkAddress: null,
+    chatTopLinkAddress: chatTopLinkAddress(chatLog),
     chatTopDay: null,
     chatUserMessageCountGraphData: chatUserMessageCountGraphData(chatLog),
     chatUserMessagingTrendsByTime: {
@@ -528,6 +528,44 @@ function chatEarlybirdUser(chatLog) {
   });
 
   return sortable[0][0];
+}
+
+function chatTopLinkAddress(chatLog) {
+  var chatLogMessages = {
+    result: chatLog.map(function (item) {
+      return item.message;
+    }),
+  };
+
+  var chatLogMessagesArray = Object.values(chatLogMessages.result);
+
+  var chatLogMessagesBlock = chatLogMessagesArray.join(' ');
+
+  var expression =
+    /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/gi;
+  var chatLogMessagesURL = chatLogMessagesBlock.match(expression);
+
+  let summarisedChatLogURLs = [];
+  for (var item in chatLogMessagesURL) {
+    let url = chatLogMessagesURL[item];
+    url = url.replace('http://', '');
+    url = url.replace('https://', '');
+    url = url.replace('www.', '');
+    url = url.split('/')[0];
+
+    summarisedChatLogURLs.push(url);
+  }
+
+  let chatLogURLSummary = {};
+  summarisedChatLogURLs.forEach(function (x) {
+    chatLogURLSummary[x] = (chatLogURLSummary[x] || 0) + 1;
+  });
+
+  let sortable = Object.entries(chatLogURLSummary);
+
+  let sortedURLs = sortable.sort((a, b) => b[1] - a[1]);
+
+  return sortedURLs[0][0];
 }
 
 export { parseAcceptedFile };
