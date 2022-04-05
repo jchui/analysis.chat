@@ -2,16 +2,59 @@ import React, { useCallback, useState } from 'react';
 import JSZip from 'jszip';
 
 async function parseAcceptedFile(acceptedFile) {
-  let output = { chatName: null, chatImages: [], chatLog: [] };
-  let chatImages = [];
-  let chatLog = [];
+  let output = {
+    chatName: null,
+    chatImages: [],
+    chatLog: [],
+    data: {
+      chatMessageDuration: null,
+      chatMessageCount: null,
+      chatParticipantCount: null,
+      chatFirstMessageDate: null,
+      chatAvgWeeklyMessages: null,
+      chatLongestDayStreak: null,
+      chatMostActiveUser: null,
+      chatConversationStarter: null,
+      chatTopEmoji: null,
+      chatTextingTime: null,
+      chatNightowlUser: null,
+      chatEarlybirdUser: null,
+      chatAvgDailyMessages: null,
+      chatAvgDailyMessagesNote: null,
+      chatImagesCount: null,
+      chatTopLinkAddress: null,
+      chatTopDay: null,
+      chatUserMessageCountGraphData: {
+        labels: [],
+        datasets: [],
+      },
+      chatUserMessagingTrendsByTime: {
+        labels: [],
+        datasets: [],
+      },
+      chatLogFullTimeline: {
+        labels: [],
+        datasets: [],
+      },
+      chatDayRadar: {
+        labels: [],
+        datasets: [],
+      },
+      chatTopLinksSummary: {
+        labels: [],
+        datasets: [],
+      },
+    },
+  };
 
-  var title = acceptedFile[0].name;
+  let chatLogFile = acceptedFile[0];
+
+  var title = chatLogFile.name;
   title = title.replace('WhatsApp Chat - ', '');
   title = title.substring(0, title.length - 4);
 
-  let chatImagesPromise = parseChatImages(acceptedFile[0]);
-  let chatLogPromise = parseChatLog(acceptedFile[0]);
+  let chatImagesPromise = parseChatImages(chatLogFile);
+  let chatLogPromise = parseChatLog(chatLogFile);
 
   output.chatName = title;
   output.chatImages = await chatImagesPromise;
