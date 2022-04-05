@@ -411,7 +411,7 @@ function chatTextingTime(chatLog) {
 
 function chatAvgWeeklyMessages(chatLog) {
   return Math.floor(
-    chatMessageCount(chatLog) / chatMessageDuration(chatLog) / 7
+    chatMessageCount(chatLog) / chatMessageDuration(chatLog) * 7
   );
 }
 
