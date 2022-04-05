@@ -20,22 +20,17 @@ const IndexPage = () => {
     if (acceptedFile != 0) {
       setLoading(true);
 
-      awaitDataParsing(acceptedFile).then(
-        (data) => {
-          setLoading(false);
-          setChatLogData(data);
-        }
-      )
-
+      awaitDataParsing(acceptedFile).then(data => {
+        setLoading(false);
+        setChatLogData(data);
+      });
     }
   }, []);
-
-  console.log(chatLogData);
 
   return (
     <main>
       <Dropzone onDrop={handleFileDrop} />
-      {loading && <p>Loading</p>}    
+      {loading && <p>Loading</p>}
       {chatLogData != undefined && <Showcase chatLogData={chatLogData} />}
     </main>
   );
