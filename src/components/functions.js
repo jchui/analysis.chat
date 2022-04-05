@@ -7,45 +7,7 @@ async function parseAcceptedFile(acceptedFile) {
     chatName: null,
     chatImages: [],
     chatLog: [],
-    data: {
-      chatMessageDuration: null,
-      chatMessageCount: null,
-      chatParticipantCount: null,
-      chatFirstMessageDate: null,
-      chatAvgWeeklyMessages: null,
-      chatLongestDayStreak: null,
-      chatMostActiveUser: null,
-      chatConversationStarter: null,
-      chatTopEmoji: null,
-      chatTextingTime: null,
-      chatNightowlUser: null,
-      chatEarlybirdUser: null,
-      chatAvgDailyMessages: null,
-      chatAvgDailyMessagesNote: null,
-      chatImagesCount: null,
-      chatTopLinkAddress: null,
-      chatTopDay: null,
-      chatUserMessageCountGraphData: {
-        labels: [],
-        datasets: [],
-      },
-      chatUserMessagingTrendsByTime: {
-        labels: [],
-        datasets: [],
-      },
-      chatLogFullTimeline: {
-        labels: [],
-        datasets: [],
-      },
-      chatDayRadar: {
-        labels: [],
-        datasets: [],
-      },
-      chatTopLinksSummary: {
-        labels: [],
-        datasets: [],
-      },
-    },
+    data: {},
   };
 
   let chatLogFile = acceptedFile[0];
@@ -155,23 +117,24 @@ function parseChatLog(acceptedFile) {
   return chatLog;
 }
 
-function processChatLogData(chatLogData) {
+function processChatLogData(chatLog) {
   let data = {};
 
-  data.chatMessageDuration = chatMessageDuration(chatLogData);
+  data.chatMessageDuration = chatMessageDuration(chatLog);
+  data.chatMessageCount = chatMessageCount(chatLog);
 
   return data;
 }
 
-function chatMessageDuration(chatLogData) {
-  var earliestDate = chatLogData[0].date.split('/');
+function chatMessageDuration(chatLog) {
+  var earliestDate = chatLog[0].date.split('/');
   var earliestDateObject = new Date(
     +earliestDate[2],
     earliestDate[1] - 1,
     +earliestDate[0]
   );
 
-  var lastDate = chatLogData[chatLogData.length - 1].date.split('/');
+  var lastDate = chatLog[chatLog.length - 1].date.split('/');
   var lastDateObject = new Date(+lastDate[2], lastDate[1] - 1, +lastDate[0]);
 
   var difference = lastDateObject.getTime() - earliestDateObject.getTime();
@@ -179,5 +142,9 @@ function chatMessageDuration(chatLogData) {
 
   return dateDifference;
 };
+
+function chatMessageCount(chatLog) {
+    return chatLog.length;
+}
 
 export { parseAcceptedFile };
