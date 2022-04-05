@@ -27,7 +27,7 @@ async function parseAcceptedFile(acceptedFile) {
   output.chatLog = await chatLogPromise;
 
   if (output.chatLog.length != 0) {
-    output.data = processChatLogData(output.chatLog);
+    output.data = processChatLogData(output.chatLog, output.chatImages);
     output.status = true;
   }
 
@@ -120,7 +120,7 @@ function parseChatLog(acceptedFile) {
   return chatLog;
 }
 
-function processChatLogData(chatLog) {
+function processChatLogData(chatLog, chatImages) {
   let data = {
     chatMessageDuration: chatMessageDuration(chatLog),
     chatMessageCount: chatMessageCount(chatLog),
@@ -135,7 +135,7 @@ function processChatLogData(chatLog) {
     chatAvgDailyMessages: chatAvgDailyMessages(chatLog),
     chatNightowlUser: null,
     chatEarlybirdUser: null,
-    chatImagesCount: null,
+    chatImagesCount: chatImagesCount(chatImages),
     chatTopLinkAddress: null,
     chatTopDay: null,
     chatUserMessageCountGraphData: chatUserMessageCountGraphData(chatLog),
@@ -438,6 +438,10 @@ function chatAvgWeeklyMessages(chatLog) {
 
 function chatAvgDailyMessages(chatLog) {
   return Math.floor(chatMessageCount(chatLog) / chatMessageDuration(chatLog));
+}
+
+function chatImagesCount(chatImages) {
+  return chatImages.length;
 }
 
 export { parseAcceptedFile };
