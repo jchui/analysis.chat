@@ -133,6 +133,7 @@ function processChatLogData(chatLog) {
     chatUserMessageCountGraphData: chatUserMessageCountGraphData(chatLog),
     chatTextingTime: chatTextingTime(chatLog),
     chatAvgWeeklyMessages: chatAvgWeeklyMessages(chatLog),
+    chatAvgDailyMessages: chatAvgDailyMessages(chatLog),
   };
 
   return data;
@@ -409,6 +410,12 @@ function chatTextingTime(chatLog) {
 }
 
 function chatAvgWeeklyMessages(chatLog) {
+  return Math.floor(
+    chatMessageCount(chatLog) / chatMessageDuration(chatLog) / 7
+  );
+}
+
+function chatAvgDailyMessages(chatLog) {
   return Math.floor(chatMessageCount(chatLog) / chatMessageDuration(chatLog));
 }
 
