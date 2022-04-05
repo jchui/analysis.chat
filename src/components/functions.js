@@ -129,6 +129,7 @@ function processChatLogData(chatLog) {
     chatLongestDayStreak: chatLongestDayStreak(chatLog),
     chatMostActiveUser: chatMostActiveUser(chatLog),
     chatLeastActiveUser: chatLeastActiveUser(chatLog),
+    chatTopEmoji: chatTopEmoji(chatLog),
   };
 
   return data;
@@ -268,6 +269,44 @@ function chatLeastActiveUser(chatLog) {
   });
 
   return sortable[0][0];
+}
+
+function chatTopEmoji(chatLog) {
+  var chatLogMessages = {
+    result: chatLog.map(function (item) {
+      return item.message;
+    }),
+  };
+
+  var chatLogMessagesArray = Object.values(chatLogMessages.result);
+
+  var chatLogMessagesBlock = chatLogMessagesArray.join(' ');
+
+  let emojiFrequency = [...chatLogMessagesBlock].reduce((freq, char) => {
+    if (char >= '\u{1F300}' && char < '\u{1F700}')
+      freq[char] = (freq[char] || 0) + 1;
+    return freq;
+  }, {});
+
+  var sortable = [];
+  for (var item in emojiFrequency) {
+    sortable.push([item, emojiFrequency[item]]);
+  }
+
+  sortable.sort(function (a, b) {
+    return b[1] - a[1];
+  });
+
+  var output =
+    sortable[0][0] +
+    ' ' +
+    sortable[1][0] +
+    ' ' +
+    sortable[2][0] +
+    ' ' +
+    sortable[3][0];
+
+  return output;
 }
 
 export { parseAcceptedFile };
