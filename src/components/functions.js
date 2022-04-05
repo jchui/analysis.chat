@@ -131,6 +131,7 @@ function processChatLogData(chatLog) {
     chatLeastActiveUser: chatLeastActiveUser(chatLog),
     chatTopEmoji: chatTopEmoji(chatLog),
     chatUserMessageCountGraphData: chatUserMessageCountGraphData(chatLog),
+    chatTextingTime: chatTextingTime(chatLog),
   };
 
   return data;
@@ -357,6 +358,51 @@ function chatUserMessageCountGraphData(chatLog) {
   });
 
   result.datasets[0].data = tempDatasetArray;
+
+  return result;
+}
+
+function chatTextingTime(chatLog) {
+  const tempChatTextTime = _.cloneDeep(chatLog);
+
+  Object.keys(tempChatTextTime).map(item => {
+    delete tempChatTextTime[item]['date'];
+    delete tempChatTextTime[item]['message'];
+
+    tempChatTextTime[item]['time'] = tempChatTextTime[item]['time'].substring(
+      0,
+      2
+    );
+  });
+
+  var tempChatTextTimeHour = tempChatTextTime.reduce(
+    (c, { time: key }) => ((c[key] = (c[key] || 0) + 1), c),
+    {}
+  );
+
+  var sortable = [];
+  for (var item in tempChatTextTimeHour) {
+    sortable.push([item, tempChatTextTimeHour[item]]);
+  }
+
+  sortable.sort(function (a, b) {
+    return b[1] - a[1];
+  });
+
+  var topTimeFreq = parseInt(sortable[0][0]);
+  let result = '';
+
+  if (topTimeFreq >= 2 && topTimeFreq < 8) {
+    result = 'early mornings';
+  } else if (topTimeFreq >= 8 && topTimeFreq < 12) {
+    result = 'in the morning';
+  } else if (topTimeFreq >= 12 && topTimeFreq < 18) {
+    result = 'in the afternoon';
+  } else if (topTimeFreq >= 18 && topTimeFreq < 22) {
+    result = 'in the evening';
+  } else {
+    result = 'late at night';
+  }
 
   return result;
 }
