@@ -132,6 +132,7 @@ function processChatLogData(chatLog) {
     chatTopEmoji: chatTopEmoji(chatLog),
     chatUserMessageCountGraphData: chatUserMessageCountGraphData(chatLog),
     chatTextingTime: chatTextingTime(chatLog),
+    chatAvgWeeklyMessages: chatAvgWeeklyMessages(chatLog),
   };
 
   return data;
@@ -405,6 +406,10 @@ function chatTextingTime(chatLog) {
   }
 
   return result;
+}
+
+function chatAvgWeeklyMessages(chatLog) {
+  return Math.floor(chatMessageCount(chatLog) / chatMessageDuration(chatLog));
 }
 
 export { parseAcceptedFile };
