@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import JSZip from 'jszip';
 import numWords from 'num-words';
 import { format } from 'date-fns';
+import _ from 'lodash';
 
 async function parseAcceptedFile(acceptedFile) {
   let output = {
