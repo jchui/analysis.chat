@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import JSZip from 'jszip';
+import numWords from 'num-words';
 
 async function parseAcceptedFile(acceptedFile) {
   let output = {
@@ -122,9 +123,14 @@ function processChatLogData(chatLog) {
 
   data.chatMessageDuration = chatMessageDuration(chatLog);
   data.chatMessageCount = chatMessageCount(chatLog);
+  data.chatParticipantCount = chatParticipantCount(chatLog);
 
   return data;
 }
+
+/* ********************************************** */
+// FUNCTIONS FOR PARSING INDIVIDUAL DATA POINTS  //
+/* ********************************************** */
 
 function chatMessageDuration(chatLog) {
   var earliestDate = chatLog[0].date.split('/');
@@ -141,10 +147,27 @@ function chatMessageDuration(chatLog) {
   var dateDifference = Math.ceil(difference / (1000 * 3600 * 24));
 
   return dateDifference;
-};
+}
 
 function chatMessageCount(chatLog) {
-    return chatLog.length;
+  return chatLog.length;
+}
+
+function chatParticipantCount(chatLog) {
+  const chatLogUsers = chatLog
+    .map(({ user }) => user)
+    .reduce((users, user) => {
+      const count = users[user] || 0;
+      users[user] = count + 1;
+      return users;
+    }, {});
+
+  delete chatLogUsers['Admin'];
+  delete chatLogUsers['‎You'];
+
+  var result = numWords(Object.keys(chatLogUsers).length);
+
+  return result;
 }
 
 export { parseAcceptedFile };
