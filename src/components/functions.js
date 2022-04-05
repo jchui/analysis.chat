@@ -133,7 +133,7 @@ function processChatLogData(chatLog, chatImages) {
     chatTextingTime: chatTextingTime(chatLog),
     chatAvgWeeklyMessages: chatAvgWeeklyMessages(chatLog),
     chatAvgDailyMessages: chatAvgDailyMessages(chatLog),
-    chatNightowlUser: null,
+    chatNightowlUser: chatNightowlUser(chatLog),
     chatEarlybirdUser: null,
     chatImagesCount: chatImagesCount(chatImages),
     chatTopLinkAddress: null,
@@ -442,6 +442,49 @@ function chatAvgDailyMessages(chatLog) {
 
 function chatImagesCount(chatImages) {
   return chatImages.length;
+}
+
+function chatNightowlUser(chatLog) {
+  const tempChatTextTime = _.cloneDeep(chatLog);
+
+  Object.keys(tempChatTextTime).map(item => {
+    delete tempChatTextTime[item]['date'];
+    delete tempChatTextTime[item]['message'];
+
+    tempChatTextTime[item]['time'] = tempChatTextTime[item]['time'].substring(
+      0,
+      2
+    );
+  });
+
+  let filteredTime = [];
+  for (let i = 0; i < tempChatTextTime.length; i++) {
+    if (tempChatTextTime[i].time >= 22 || tempChatTextTime[i].time <= 4) {
+      filteredTime.push(tempChatTextTime[i]);
+    }
+  }
+
+  const frequency = filteredTime
+    .map(({ user }) => user)
+    .reduce((users, user) => {
+      const count = users[user] || 0;
+      users[user] = count + 1;
+      return users;
+    }, {});
+
+  delete frequency['Admin'];
+  delete frequency['‎You'];
+
+  var sortable = [];
+  for (var item in frequency) {
+    sortable.push([item, frequency[item]]);
+  }
+
+  sortable.sort(function (a, b) {
+    return b[1] - a[1];
+  });
+
+  return sortable[0][0];
 }
 
 export { parseAcceptedFile };
