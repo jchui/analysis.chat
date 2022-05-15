@@ -23,21 +23,21 @@ This project is currently hosted at <a href="https://analysis.chat/">analysis.ch
 
 **Data Points**
 
-| Variable | Description |
-| -------- | ----------- |
-| chatMessageDuration | Time since first messages exchanged |
-| chatMessageCount | Total number of messages |
-| chatParticipantCount | Total number of participants |
-| chatFirstMessageDate | Date of first message |
-| chatLongestDayStreak | Longest streak of daily messages |
-| chatMostActiveUser | Most active chat user |
-| chatLeastActiveUser | Least active chat user |
-| chatTopEmoji | Top emojis used |
-| chatTextingTime | Time of day most conversations take place |
-| chatAvgWeeklyMessages | Average number of weekly messages |
-| chatAvgDailyMessages | Average number of daily messages |
-| chatNightowlUser | Most active user at night |
-| chatEarlybirdUser | Most active user in the morning |
-| chatImagesCount | Number of images exchanged |
-| chatTopLinkAddress | Most commonly shared links |
-| chatUserMessageCountGraphData | Number of messages per user |
+| Variable                      | Description                               |
+| ----------------------------- | ----------------------------------------- |
+| chatMessageDuration           | Time since first messages exchanged       |
+| chatMessageCount              | Total number of messages                  |
+| chatParticipantCount          | Total number of participants              |
+| chatFirstMessageDate          | Date of first message                     |
+| chatLongestDayStreak          | Longest streak of daily messages          |
+| chatMostActiveUser            | Most active chat user                     |
+| chatLeastActiveUser           | Least active chat user                    |
+| chatTopEmoji                  | Top emojis used                           |
+| chatTextingTime               | Time of day most conversations take place |
+| chatAvgWeeklyMessages         | Average number of weekly messages         |
+| chatAvgDailyMessages          | Average number of daily messages          |
+| chatNightowlUser              | Most active user at night                 |
+| chatEarlybirdUser             | Most active user in the morning           |
+| chatImagesCount               | Number of images exchanged                |
+| chatTopLinkAddress            | Most commonly shared links                |
+| chatUserMessageCountGraphData | Number of messages per user               |
