@@ -1,54 +1,43 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
+<h3 align="center">analysis.chat</h3>
+
+<p align="center"><small>
+Status: Work in Progress
+</small>
 </p>
-<h1 align="center">
-  Gatsby minimal starter
-</h1>
 
-## 🚀 Quick start
+<p align="center">
+    <a href="https://github.com/jchui/analysis.chat"><img src="https://img.shields.io/github/issues/jchui/analysis.chat.svg"></a>
+    <a href="https://github.com/jchui/analysis.chat"><img src="https://img.shields.io/github/languages/code-size/jchui/analysis.chat.svg"></a>
+    <a href="https://github.com/jchui/analysis.chat"><img src="https://img.shields.io/tokei/lines/github/jchui/analysis.chat.svg"></a>
+</p>
 
-1.  **Create a Gatsby site.**
+<p align="center">
+This project breaks down Whatsapp chat exports and gives users information regarding their conversations.
+</p>
 
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
+<p align="center">
+This project is currently hosted at <a href="https://analysis.chat/">analysis.chat</a> via Github Pages.
+</p>
 
-    ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
-    ```
+<hr />
 
-2.  **Start developing.**
+**Data Points**
 
-    Navigate into your new site’s directory and start it up.
-
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
-
-3.  **Open the code and start customizing!**
-
-    Your site is now running at http://localhost:8000!
-
-    Edit `src/pages/index.js` to see your site update in real-time!
-
-4.  **Learn more**
-
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Tutorials](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Guides](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-
-## 🚀 Quick start (Gatsby Cloud)
-
-Deploy this starter with one click on [Gatsby Cloud](https://www.gatsbyjs.com/cloud/):
-
-[<img src="https://www.gatsbyjs.com/deploynow.svg" alt="Deploy to Gatsby Cloud">](https://www.gatsbyjs.com/dashboard/deploynow?url=https://github.com/gatsbyjs/gatsby-starter-minimal)
+| Variable | Description |
+| -------- | ----------- |
+| chatMessageDuration | Time since first messages exchanged |
+| chatMessageCount | Total number of messages |
+| chatParticipantCount | Total number of participants |
+| chatFirstMessageDate | Date of first message |
+| chatLongestDayStreak | Longest streak of daily messages |
+| chatMostActiveUser | Most active chat user |
+| chatLeastActiveUser | Least active chat user |
+| chatTopEmoji | Top emojis used |
+| chatTextingTime | Time of day most conversations take place |
+| chatAvgWeeklyMessages | Average number of weekly messages |
+| chatAvgDailyMessages | Average number of daily messages |
+| chatNightowlUser | Most active user at night |
+| chatEarlybirdUser | Most active user in the morning |
+| chatImagesCount | Number of images exchanged |
+| chatTopLinkAddress | Most commonly shared links |
+| chatUserMessageCountGraphData | Number of messages per user |
