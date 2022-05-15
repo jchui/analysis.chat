@@ -29,9 +29,16 @@ const IndexPage = () => {
 
   return (
     <main>
-      <Dropzone onDrop={handleFileDrop} />
-      {loading && <p>Loading</p>}
-      {chatLogData != undefined && <Showcase chatLogData={chatLogData} />}
+      <div className="wip">
+        <p>Work in Progress</p>
+      </div>
+
+      <section className="container">
+        <Dropzone onDrop={handleFileDrop} />
+
+        {loading && <p>Loading</p>}
+        {chatLogData != undefined && <Showcase chatLogData={chatLogData} />}
+      </section>
     </main>
   );
 };
