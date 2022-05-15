@@ -15,7 +15,7 @@ function Dropzone(props) {
   return (
     <div {...getRootProps({ className: 'dropzone' })}>
       <input {...getInputProps()} />
-      <p>Drag 'n' drop some files here, or click to select files</p>
+      <p>Drag 'n' drop your Whatsapp chatlog zip file here, or click to select the file</p>
     </div>
   );
 }
